@@ -12,7 +12,7 @@ in
       description = "Whether to enable user account creation and home-manager setup.";
     };
 
-    username = lib.mkOption {
+    name = lib.mkOption {
       type = lib.types.singleLineStr;
       default = "leier";
     };
@@ -42,24 +42,24 @@ in
     programs.starship.enable = true;
 
     # Ensure primary group <username> exists
-    users.groups.${cfg.username} = {};
+    users.groups.${cfg.name} = {};
 
     # Create the user account
-    users.users.${cfg.username} = {
+    users.users.${cfg.name} = {
       isNormalUser = true;
-      home = "/home/${cfg.username}";
+      home = "/home/${cfg.name}";
       homeMode = "0770";
       createHome = true;
       initialHashedPassword = "$6$IwGp276/71CzyoDG$RHOfZSCTLXN2NGk7T8QcYTx815KNhEx42ECUrNxYcdjAga0JD4EVzSgUus.WR2U44Epk8fpcnMdXTIJmYB4dd0";
-      group = cfg.username;
+      group = cfg.name;
       extraGroups = cfg.secondaryGroups;
-      description = cfg.username;
+      description = cfg.name;
     };
 
     home-manager = {
       useUserPackages = true;
       useGlobalPkgs = true;
-      users.${cfg.username} = {
+      users.${cfg.name} = {
         home.stateVersion = config.system.stateVersion;
       };
     };

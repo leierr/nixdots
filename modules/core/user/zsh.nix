@@ -4,7 +4,7 @@ let
 in
 {
   config = lib.mkIf (cfg.enable && cfg.shell == "zsh") {
-    users.users.${cfg.username}.shell = pkgs.zsh;
+    users.users.${cfg.name}.shell = pkgs.zsh;
 
     programs.zsh = {
       enable = true;

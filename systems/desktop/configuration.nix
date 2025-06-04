@@ -49,5 +49,20 @@
   networking.firewall.checkReversePath = false;
 
   # various packages
-  environment.systemPackages = with pkgs; [ tmux wireguard-tools unstable.bottles age sops pavucontrol fzf meld obsidian fastfetch spotify brave xfce.mousepad ];
+  environment.systemPackages = with pkgs; [
+    tmux
+    wireguard-tools
+    unstable.bottles
+    age
+    sops
+    pavucontrol
+    fzf
+    meld
+    obsidian
+    fastfetch
+    spotify
+    brave
+    vesktop
+    xfce.mousepad
+  ];
 }

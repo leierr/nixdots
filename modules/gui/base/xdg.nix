@@ -8,7 +8,7 @@ in
     default = config.dots.gui.enable;
   };
 
-  config = lib.mkIf (cfg.enable) {
+  config = lib.mkIf cfg.enable {
     home-manager.sharedModules = [
       ({ ... }@home_manager_inputs: {
         xdg = {

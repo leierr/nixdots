@@ -8,7 +8,7 @@ in
     default = config.dots.gui.enable;
   };
 
-  config = lib.mkIf (cfg.enable) {
+  config = lib.mkIf cfg.enable {
     # dependencies
     programs.dconf.enable = true;
 

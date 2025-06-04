@@ -5,5 +5,6 @@
   imports = [
     ./apps
     ./base
+    ./desktops
   ];
 }

@@ -8,7 +8,7 @@ in
     default = config.dots.gui.enable;
   };
 
-  config = lib.mkIf (cfg.enable) {
+  config = lib.mkIf cfg.enable {
     environment.systemPackages = with pkgs; [ qgnomeplatform qgnomeplatform-qt6 adwaita-qt adwaita-qt6 ];
 
     qt = {

@@ -13,7 +13,7 @@
   inputs = {
     # Stable and Unstable Nixpkgs
     nixpkgs.url = "github:nixos/nixpkgs/release-25.05";
-    nixpkgsUnstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # Home Manager
     home-manager.url = "github:nix-community/home-manager/release-25.05";
@@ -23,5 +23,6 @@
     hyprland.url = "git+https://github.com/hyprwm/Hyprland.git?ref=refs/tags/v0.49.0&submodules=1";
     hyprsplit.url = "git+https://github.com/shezdy/hyprsplit.git?ref=refs/tags/v0.49.0";
     hyprsplit.inputs.hyprland.follows = "hyprland";
+    ags.url = "github:aylur/ags"; ags.inputs.nixpkgs.follows = "nixpkgs";
   };
 }

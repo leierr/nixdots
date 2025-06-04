@@ -19,7 +19,7 @@ in
     # Make unstable accessible as pkgs.unstable (optional)
     nixpkgs.overlays = [
       (final: prev: {
-        unstable = import flakeInputs.nixpkgsUnstable {
+        unstable = import flakeInputs.nixpkgs-unstable {
           system = config.nixpkgs.system;
           config = {};
         };

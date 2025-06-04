@@ -29,7 +29,7 @@ in
       security.doas.enable = true;
       security.sudo.enable = false;
 
-      environment.etc."doas.conf".text = ''
+      environment.etc."doas.conf".text = lib.mkForce ''
         permit ${if cfg.noPasswordForWheel then "nopass" else "persist"} keepenv setenv { SSH_AUTH_SOCK TERMINFO TERMINFO_DIRS } :wheel
         permit nopass keepenv root
       '';

@@ -54,9 +54,6 @@ in
 
               # layout
               layout = "dwindle";
-
-              # snapping - default disabled
-              "snap.enabled" = false;
             };
 
             dwindle = {
@@ -200,37 +197,37 @@ in
             layerrule = [
               "dimaround, rofi"
             ];
-
-            # submaps
-            extraConfig = ''
-              # WM control center submap
-              bind = $mod, X, exec, sleep 2 && hyprctl dispatch submap reset
-              bind = $mod, X, submap, system_control
-              submap = system_control
-
-              # shut down computer
-              bind = , ESCAPE, exec, systemctl poweroff
-              bind = , ESCAPE, submap, reset
-
-              # exit hyprland
-              bind = , Q, exit
-              bind = , Q, submap, reset
-
-              # reload hyprland
-              bind = , R, exec, hyprctl reload config-only
-              bind = , R, submap, reset
-              bind = $mod, R, exec, hyprctl reload
-              bind = $mod, R, submap, reset
-
-              # lockscreen
-              bind = , L, exec, $lockscreen
-              bind = , L, submap, reset
-
-              bind = , catchall, submap, reset
-
-              submap = reset
-            '';
           };
+
+          # submaps
+          extraConfig = ''
+            # WM control center submap
+            bind = $mod, X, exec, sleep 2 && hyprctl dispatch submap reset
+            bind = $mod, X, submap, system_control
+            submap = system_control
+
+            # shut down computer
+            bind = , ESCAPE, exec, systemctl poweroff
+            bind = , ESCAPE, submap, reset
+
+            # exit hyprland
+            bind = , Q, exit
+            bind = , Q, submap, reset
+
+            # reload hyprland
+            bind = , R, exec, hyprctl reload config-only
+            bind = , R, submap, reset
+            bind = $mod, R, exec, hyprctl reload
+            bind = $mod, R, submap, reset
+
+            # lockscreen
+            bind = , L, exec, $lockscreen
+            bind = , L, submap, reset
+
+            bind = , catchall, submap, reset
+
+            submap = reset
+          '';
         };
       })
     ];

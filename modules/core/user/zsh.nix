@@ -3,16 +3,16 @@ let
   cfg = config.dots.core.user;
 in
 {
-  config = lib.mkIf (cfg.enable && cfg.shell == "zsh") {
+  config = lib.mkIf (cfg.shell == "zsh") {
     users.users.${cfg.name}.shell = pkgs.zsh;
 
     programs.zsh = {
       enable = true;
       ohMyZsh.enable = true;
-      ohMyZsh.custom = ''
-        # Accept fish-style autosuggestion with Ctrl-Space
-        bindkey '^ ' autosuggest-accept
-      '';
+      #ohMyZsh.custom = ''
+      #  # Accept fish-style autosuggestion with Ctrl-Space
+      #  bindkey '^ ' autosuggest-accept
+      #'';
       enableCompletion = true;
       autosuggestions.enable = true;
       autosuggestions.highlightStyle = "fg=246";

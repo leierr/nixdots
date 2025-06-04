@@ -6,5 +6,6 @@
     ./apps
     ./base
     ./desktops
+    ./display-manager.nix
   ];
 }

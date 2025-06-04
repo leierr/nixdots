@@ -26,7 +26,8 @@
       programs.vscode.package = pkgs.vscodium;
       programs.vscode.profiles.default = {
         extensions = with pkgs.vscode-extensions; [
-          bbenoist.nix # nix syntax highlighting
+          jnoortheen.nix-ide # nix syntax highlighting
+          kamikillerto.vscode-colorize # colorize color codes in code
         ];
         userSettings = {
           "editor.tabSize" = 2;

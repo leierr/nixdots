@@ -20,6 +20,8 @@ in
 
         # disable the systemd service that comes with services.hyprpaper.enable
         systemd.user.services.hyprpaper = lib.mkForce { };
+
+        wayland.windowManager.hyprland.settings.exec = [ "pidof hyprpaper || hyprpaper" ];
       })
     ];
   };

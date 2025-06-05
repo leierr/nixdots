@@ -31,7 +31,9 @@
         };
 
         # disable the systemd service that comes with services.hyprpaper.enable
-        systemd.user.services.hypridle = lib.mkForce { };
+        systemd.user.services.hypridle = lib.mkForce {};
+
+        wayland.windowManager.hyprland.settings.exec = [ "pidof hypridle || hypridle" ];
       })
     ];
   };

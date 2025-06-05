@@ -32,7 +32,9 @@ in
             ];
 
             exec-once = [ "$browser" ];
-            exec = [ ];
+            exec = [
+              "pidof ${pkgs.networkmanagerapplet}/bin/nm-applet || ${pkgs.networkmanagerapplet}/bin/nm-applet"
+            ];
 
             plugin = {
               hyprsplit = {

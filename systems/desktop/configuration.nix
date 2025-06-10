@@ -1,5 +1,6 @@
 { pkgs, lib, ... }:
 {
+  dots.core.virtualization.docker.enable = true;
   dots.core.privilegeEscalation.noPasswordForWheel = true;
   dots.gui.enable = true;
 
@@ -92,5 +93,6 @@
     brave
     vesktop
     xfce.mousepad
+    pika-backup
   ];
 }

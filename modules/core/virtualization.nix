@@ -60,9 +60,12 @@ in
 
     # docker
     (lib.mkIf cfg.docker.enable {
-      virtualisation.docker.rootless = {
-        enable = true;
-        setSocketVariable = true;
+      virtualisation.docker = {
+        enable = false;
+        rootless = {
+          enable = true;
+          setSocketVariable = true;
+        };
       };
 
       environment.systemPackages = [ pkgs.docker-compose ];

@@ -25,34 +25,13 @@ in
           };
 
           theme = {
-            name = "Adwaita";
-            package = pkgs.libadwaita;
+            name = "adw-gtk3-dark";
+            package = pkgs.adw-gtk3;
           };
 
           iconTheme = {
             name = "Papirus-Dark";
             package = pkgs.papirus-icon-theme;
-          };
-
-          # fuck gtk2, outdated fucker
-          gtk2 = {
-            configLocation = "${homeManagerInputs.config.xdg.configHome}/gtk-2.0/gtkrc";
-            extraConfig = ''
-              # dark theme - hell yea
-              gtk-application-prefer-dark-theme = 1
-
-              # sounds
-              gtk-error-bell = 1
-              gtk-enable-input-feedback-sounds = 1
-              gtk-enable-event-sounds = 1
-
-              # disable recent file history
-              gtk-recent-files-limit = 0
-              gtk-recent-files-max-age = 0
-
-              # other stuff
-              gtk-enable-animations = 1
-            '';
           };
 
           gtk3 = {

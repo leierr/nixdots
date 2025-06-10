@@ -29,10 +29,6 @@ in
     programs.hyprland.package = flakeInputs.hyprland.packages.${pkgs.system}.hyprland;
     programs.hyprland.portalPackage = flakeInputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland;
 
-    # Basic Functionallity
-    xdg.portal.config.hyprland.default = [ "hyprland" "gtk" ];
-    xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ]; # https://github.com/NixOS/nixpkgs/issues/334260
-
     # Default application suite
     services.gvfs.enable = true; # nautilus functionallity
     services.dbus.packages = [ pkgs.sushi ]; # nautilus functionallity

@@ -13,13 +13,9 @@ in
           plugins = [ flakeInputs.hyprsplit.packages.${pkgs.system}.hyprsplit ];
 
           settings = {
-            # variables
             "$mod" = "SUPER";
-            "$terminal" = "foot";
-            "$browser" = "firefox";
-            "$application_launcher" = "rofi -show drun -config ~/.config/rofi/drun.rasi";
-            "$screenshot_exec" = "grimblast --freeze copy area";
-            "$lockscreen" = "hyprlock";
+            "$applicationLauncher" = "rofi -show drun -config ~/.config/rofi/drun.rasi";
+            "$screenshot" = "grimblast --freeze copy area";
 
             env = [
               "QT_QPA_PLATFORMTHEME,qt6ct" # use newer qt6 for decorations
@@ -34,6 +30,7 @@ in
             exec-once = [ "$browser" ];
             exec = [
               "pidof ${pkgs.networkmanagerapplet}/bin/nm-applet || ${pkgs.networkmanagerapplet}/bin/nm-applet"
+              "pidof ${pkgs.networkmanagerapplet}/libexec/hyprpolkitagent || pidof ${pkgs.networkmanagerapplet}/libexec/hyprpolkitagent"
             ];
 
             plugin = {
@@ -115,8 +112,8 @@ in
             # keyboard binds
             bind = [
               "$mod, Return, exec, $terminal"
-              "$mod, D, exec, $application_launcher"
-              "$mod, Q, exec, $screenshot_exec"
+              "$mod, D, exec, $applicationLauncher"
+              "$mod, Q, exec, $screenshot"
               #"$mod, B, exec, ${config.systemModules.gui.rofi.plugins.rbw.exec}/bin/rofi-rbw"
 
               # Window managment

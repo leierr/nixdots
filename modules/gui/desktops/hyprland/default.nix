@@ -47,5 +47,12 @@ in
     ];
 
     dots.gui.apps.footTerminal.enable = true; # terminal of choice
+
+    home-manager.sharedModules = [
+      ({
+        wayland.windowManager.hyprland.settings."$terminal" = "foot";
+        wayland.windowManager.hyprland.settings."$browser" = "firefox";
+      })
+    ];
   };
 }

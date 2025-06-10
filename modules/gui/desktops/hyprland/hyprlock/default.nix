@@ -5,6 +5,8 @@
 
     home-manager.sharedModules = [
       ({
+        wayland.windowManager.hyprland.settings."$lockscreen" = "hyprlock";
+
         programs.hyprlock = {
           enable = true;
           settings = {

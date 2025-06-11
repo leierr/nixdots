@@ -68,6 +68,9 @@ in
         };
       };
 
+      # disable rootless docker enabled on boot.
+      systemd.user.services.docker.wantedBy = lib.mkForce [];
+
       environment.systemPackages = [ pkgs.docker-compose ];
     })
   ];

@@ -6,7 +6,11 @@ require('project_nvim').setup({
 -- Telescope
 require('telescope').setup({
   defaults = {
-    -- put any layout / sorter tweaks here later
+    mappings = {
+      i = {
+        ["<Esc>"] = require('telescope.actions').close,
+      },
+    },
   },
 })
 

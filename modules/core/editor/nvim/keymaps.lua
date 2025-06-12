@@ -4,6 +4,7 @@ vim.api.nvim_create_autocmd('TermOpen', {
   callback = function()
     local opts = { buffer = 0 }
     vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], opts)
+    vim.keymap.set('n', '<Esc>', ':bd!<CR>', opts)
   end,
 })
 
@@ -48,7 +49,7 @@ vim.g.mapleader = ' '
 vim.keymap.set('n', '<leader>w', ':w<CR>', { noremap = true })
 vim.keymap.set('n', '<leader>q', ':q<CR>', { noremap = true })
 vim.keymap.set('n', '<leader>n', ':nohlsearch<CR>', { noremap = true })
-vim.keymap.set('n', '<leader>t', vim.cmd('terminal'), { desc = 'Open terminal' })
+vim.keymap.set('n', '<leader>t', function() vim.cmd('terminal') end, { desc = 'Open terminal' })
 
 -- Buffer navigation
 vim.keymap.set('n', '<Tab>', ':bnext<CR>', { desc = 'Next buffer' })

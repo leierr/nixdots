@@ -1,9 +1,9 @@
 {
   imports = [
     ./user
+    ./editor
     ./bootloader.nix
     ./debloater.nix
-    ./editor.nix
     ./locale.nix
     ./network.nix
     ./nix-settings.nix

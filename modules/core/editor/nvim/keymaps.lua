@@ -1,0 +1,72 @@
+-- Norwegian keyboard remaps
+vim.keymap.set('', 'ø', '[', { noremap = true })
+vim.keymap.set('', 'æ', ']', { noremap = true })
+vim.keymap.set('', ',', '/', { noremap = true })
+vim.keymap.set('', 'Ø', '{', { noremap = true })
+vim.keymap.set('', 'Æ', '}', { noremap = true })
+
+-- Navigation & splits
+vim.keymap.set('n', 'H', '^', { noremap = true }) -- start of line
+vim.keymap.set('n', 'L', 'g_', { noremap = true }) -- end of line
+vim.keymap.set('n', '<C-h>', '<C-w>h', { noremap = true })
+vim.keymap.set('n', '<C-j>', '<C-w>j', { noremap = true })
+vim.keymap.set('n', '<C-k>', '<C-w>k', { noremap = true })
+vim.keymap.set('n', '<C-l>', '<C-w>l', { noremap = true })
+vim.keymap.set('n', '<C-Up>', ':resize -2<CR>', { noremap = true })
+vim.keymap.set('n', '<C-Down>', ':resize +2<CR>', { noremap = true })
+vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>', { noremap = true })
+vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', { noremap = true })
+
+-- Tabs
+vim.keymap.set('n', '<leader>tn', ':tabnew<CR>', { desc = 'New tab' })
+vim.keymap.set('n', '<leader>tc', ':tabclose<CR>', { desc = 'Close tab' })
+vim.keymap.set('n', '<leader>tl', ':tabs<CR>', { desc = 'List tabs' })
+vim.keymap.set('n', 'gt', ':tabnext<CR>', { noremap = true })
+vim.keymap.set('n', 'gT', ':tabprevious<CR>', { noremap = true })
+
+-- Leader basics
+vim.g.mapleader = ' '
+vim.keymap.set('n', '<leader>w', ':w<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>q', ':q<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>n', ':nohlsearch<CR>', { noremap = true })
+vim.keymap.set('n', '<leader>x', ':bd<CR>', { noremap = true })
+
+-- Telescope pickers
+local telescope_builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', telescope_builtin.find_files, { desc = 'Find file' })
+vim.keymap.set('n', '<leader>fg', telescope_builtin.live_grep, { desc = 'Live grep' })
+vim.keymap.set('n', '<leader>fb', telescope_builtin.buffers, { desc = 'Buffers' })
+vim.keymap.set('n', '<leader>fo', telescope_builtin.oldfiles, { desc = 'Old files' })
+vim.keymap.set('n', '<leader>fp', require('telescope').extensions.projects.projects, { desc = 'Projects' })
+vim.keymap.set('n', '<leader>gs', telescope_builtin.git_status, { desc = 'Git status' })
+vim.keymap.set('n', '<leader>gc', telescope_builtin.git_commits, { desc = 'Git commits' })
+
+-- Gitsigns helpers
+vim.keymap.set('n', ']h', require('gitsigns').next_hunk, { desc = 'Next hunk' })
+vim.keymap.set('n', '[h', require('gitsigns').prev_hunk, { desc = 'Prev hunk' })
+vim.keymap.set('n', '<leader>hs', require('gitsigns').stage_hunk, { desc = 'Stage hunk' })
+vim.keymap.set('n', '<leader>hu', require('gitsigns').undo_stage_hunk, { desc = 'Undo stage' })
+vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { desc = 'Preview hunk' })
+vim.keymap.set('n', '<leader>hb', ':Gitsigns toggle_current_line_blame<CR>', { desc = 'Toggle blame' })
+
+-- Fugitive shortcuts
+vim.keymap.set('n', '<leader>gd', ':G diffsplit<CR>', { desc = 'Diff split' })
+vim.keymap.set('n', '<leader>gl', ':G log --oneline<CR>', { desc = 'Git log' })
+vim.keymap.set('n', '<leader>gp', ':G push<CR>', { desc = 'Git push' })
+vim.keymap.set('n', '<leader>gP', ':G pull<CR>', { desc = 'Git pull' })
+
+local function commit_and_push()
+  vim.cmd('G add --all')
+
+  vim.ui.input({ prompt = 'Commit message: ' }, function(msg)
+    if not msg or msg == '' then
+      print('Aborted: empty commit message')
+      return
+    end
+    -- Commit and push
+    vim.cmd('G commit -m '..vim.fn.shellescape(msg))
+    vim.cmd('G push')
+  end)
+end
+
+vim.keymap.set('n', '<leader>ga', commit_and_push, { desc = 'Add -A → commit → push' })

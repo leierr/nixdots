@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 let
   cfg = config.dots.core.editor;
 in
@@ -17,14 +17,7 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable (lib.mkMerge [
-    (lib.mkIf (cfg.program == "nvim") {
-      programs.neovim = {
-        enable = true;
-        viAlias = true;
-        vimAlias = true;
-        defaultEditor = true;
-      };
-    })
-  ]);
+  imports = [
+    ./nvim
+  ];
 }

@@ -7,7 +7,7 @@ in
     enable = lib.mkOption {
       type = lib.types.bool;
       default = true;
-      description = "debloat default nixos options";
+      description = "debloat default nixos";
     };
   };
 

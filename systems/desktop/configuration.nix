@@ -22,30 +22,6 @@
         }
       ];
 
-      # vscodium
-      programs.vscode.enable = true;
-      programs.vscode.package = pkgs.vscodium;
-      programs.vscode.profiles.default = {
-        extensions = with pkgs.vscode-extensions; [
-          jnoortheen.nix-ide # nix syntax highlighting
-          kamikillerto.vscode-colorize # colorize color codes in code
-        ];
-        userSettings = {
-          "editor.tabSize" = 2;
-          "editor.insertSpaces" = true;
-          "security.workspace.trust.enabled" = false;
-          "git.enableSmartCommit" = true;
-          "git.autofetch" = true;
-          "git.confirmSync" = false;
-          "explorer.confirmDelete" = false;
-          "explorer.confirmDragAndDrop" = false;
-          "colorize.colorized_colors" = ["BROWSERS_COLORS" "HEXA" "RGB" "HSL"];
-          "colorize.colorized_variables" = ["CSS"];
-          "colorize.exclude" = ["**/.git" "**/.svn" "**/.hg" "**/CVS" "**/.DS_Store" "**/.git" "**/node_modules" "**/bower_components" "**/tmp" "**/dist" "**/tests"];
-          "colorize.include" = ["**/*.nix" "**/*.css" "**/*.scss" "**/*.sass" "**/*.less" "**/*.styl"];
-        };
-      };
-
       # more scaling stuff
       dconf.settings."org/gnome/desktop/interface".text-scaling-factor = 1.1;
 

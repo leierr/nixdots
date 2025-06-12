@@ -1,3 +1,6 @@
+-- define leader before doing anything else
+vim.g.mapleader = ' '
+
 -- UI
 vim.opt.number = true -- Show absolute line number on the current line
 vim.opt.relativenumber = true -- Show relative line numbers on all other lines

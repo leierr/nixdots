@@ -23,8 +23,8 @@ in
             lualine-nvim # status line
           ];
           extraLuaConfig = builtins.concatStringsSep "\n" [
-            (builtins.readFile ./plugins.lua)
             (builtins.readFile ./config.lua)
+            (builtins.readFile ./plugins.lua)
             (builtins.readFile ./keymaps.lua)
           ];
         };

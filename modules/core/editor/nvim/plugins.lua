@@ -6,6 +6,7 @@ require('project_nvim').setup({
 -- Telescope
 require('telescope').setup({
   defaults = {
+    file_ignore_patterns = { "%.mp4$", "%.png$", "%.zip$", "%.jpg$", "%.mov$" },
     mappings = {
       i = {
         ["<Esc>"] = require('telescope.actions').close,

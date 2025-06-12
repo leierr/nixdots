@@ -9,6 +9,15 @@ vim.api.nvim_create_autocmd('TermOpen', {
 })
 
 local function commit_and_push()
+  vim.cmd('G fetch origin')
+
+  -- stop if remote is ahead
+  local behind = tonumber((vim.fn.system('git rev-list --count --left-only @{u}...HEAD'):gsub('%s+', ''))) or 0
+  if behind > 0 then
+    print('Upstream has new commits – pull/rebase first')
+    return
+  end
+
   vim.cmd('G add --all')
 
   vim.ui.input({ prompt = 'Commit message: ' }, function(msg)
@@ -45,7 +54,6 @@ vim.keymap.set('n', '<C-Left>', ':vertical resize -2<CR>', { noremap = true })
 vim.keymap.set('n', '<C-Right>', ':vertical resize +2<CR>', { noremap = true })
 
 -- Leader basics
-vim.g.mapleader = ' '
 vim.keymap.set('n', '<leader>w', ':w<CR>', { noremap = true })
 vim.keymap.set('n', '<leader>q', ':q<CR>', { noremap = true })
 vim.keymap.set('n', '<leader>n', ':nohlsearch<CR>', { noremap = true })

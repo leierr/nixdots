@@ -75,6 +75,9 @@ vim.keymap.set('n', '<leader>fp', require('telescope').extensions.projects.proje
 vim.keymap.set('n', '<leader>gs', telescope_builtin.git_status, { desc = 'Git status' })
 vim.keymap.set('n', '<leader>gc', telescope_builtin.git_commits, { desc = 'Git commits' })
 
+-- Leap movement keybinds
+vim.keymap.set('n', 's', 'require('leap').leap')
+
 -- Gitsigns helpers
 vim.keymap.set('n', ']h', require('gitsigns').next_hunk, { desc = 'Next hunk' })
 vim.keymap.set('n', '[h', require('gitsigns').prev_hunk, { desc = 'Prev hunk' })

@@ -21,6 +21,8 @@ in
             project-nvim # vscode style projects
             gitsigns-nvim vim-fugitive # git
             lualine-nvim # status line
+            yazi-nvim # file manager
+            leap-nvim # advanced movement
           ];
           extraLuaConfig = builtins.concatStringsSep "\n" [
             (builtins.readFile ./config.lua)

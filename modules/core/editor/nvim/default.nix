@@ -33,6 +33,6 @@ in
       })
     ];
 
-    environment.systemPackages = [ pkgs.ripgrep ];
+    environment.systemPackages = [ pkgs.ripgrep pkgs.yazi ];
   };
 }

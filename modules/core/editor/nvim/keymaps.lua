@@ -2,6 +2,8 @@
 vim.api.nvim_create_autocmd('TermOpen', {
   pattern = '*',
   callback = function()
+    vim.cmd('startinsert') -- enter insert mode when I fist launch terminal
+
     local opts = { buffer = 0 }
     vim.keymap.set('t', '<Esc>', [[<C-\><C-n>]], opts)
     vim.keymap.set('n', '<Esc>', ':bd!<CR>', opts)
@@ -10,6 +12,18 @@ vim.api.nvim_create_autocmd('TermOpen', {
 
 local function commit_and_push()
   vim.cmd('G fetch origin')
+
+  if next(vim.fn.getbufinfo({ bufloaded = 1, changed = 1 })) ~= nil then
+    -- Show a Yes / No dialog. 1 = “Yes”, 2 = “No”
+    local answer = vim.fn.confirm(
+      'There are unsaved buffers – write them before committing?', '&Yes\n&No', 1
+    )
+    if answer ~= 1 then
+      print('Aborted: unsaved files')
+      return
+    end
+    vim.cmd('wall') -- write *all* buffers
+  end
 
   -- stop if remote is ahead
   local behind = tonumber((vim.fn.system('git rev-list --count --left-only @{u}...HEAD'):gsub('%s+', ''))) or 0
@@ -44,6 +58,8 @@ vim.keymap.set({ 'n', 'v' }, 'Æ', '}', { noremap = true })
 -- Navigation & splits
 vim.keymap.set('n', 'H', '^', { noremap = true }) -- start of line
 vim.keymap.set('n', 'L', 'g_', { noremap = true }) -- end of line
+vim.keymap.set('n', 'K', '<C-u>zz', { desc = 'Up half page & recenter' })
+vim.keymap.set('n', 'J', '<C-d>zz', { desc = 'Down half page & recenter' })
 vim.keymap.set('n', '<C-h>', '<C-w>h', { noremap = true })
 vim.keymap.set('n', '<C-j>', '<C-w>j', { noremap = true })
 vim.keymap.set('n', '<C-k>', '<C-w>k', { noremap = true })
@@ -60,23 +76,20 @@ vim.keymap.set('n', '<leader>n', ':nohlsearch<CR>', { noremap = true })
 vim.keymap.set('n', '<leader>t', function() vim.cmd('terminal') end, { desc = 'Open terminal' })
 
 -- Buffer navigation
-vim.keymap.set('n', '<Tab>', ':bnext<CR>', { desc = 'Next buffer' })
-vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', { desc = 'Previous buffer' })
-vim.keymap.set('n', '<leader>bd', ':bdelete<CR>', { desc = 'Delete buffer' })
-vim.keymap.set('n', '<leader><leader>', '<C-^>', { desc = 'Toggle last buffer' })
+vim.keymap.set('n', '<Tab>', ':bnext<CR>', { desc = 'Next buffer' }) -- Ctrl+6 = toggle last two buffers
+vim.keymap.set('n', '<leader>q', '<cmd>bdelete<CR>', { desc = 'Delete buffer' })
 
 -- Telescope pickers
-local telescope_builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', telescope_builtin.find_files, { desc = 'Find file' })
-vim.keymap.set('n', '<leader>fg', telescope_builtin.live_grep, { desc = 'Live grep' })
-vim.keymap.set('n', '<leader>fb', telescope_builtin.buffers, { desc = 'Buffers' })
-vim.keymap.set('n', '<leader>fo', telescope_builtin.oldfiles, { desc = 'Old files' })
+vim.keymap.set('n', '<leader>ff', require('telescope.builtin').find_files, { desc = 'Find file' })
+vim.keymap.set('n', '<leader>fg', require('telescope.builtin').live_grep, { desc = 'Live grep' })
+vim.keymap.set('n', '<leader>fb', require('telescope.builtin').buffers, { desc = 'Buffers' })
+vim.keymap.set('n', '<leader>fo', require('telescope.builtin').oldfiles, { desc = 'Old files' })
 vim.keymap.set('n', '<leader>fp', require('telescope').extensions.projects.projects, { desc = 'Projects' })
-vim.keymap.set('n', '<leader>gs', telescope_builtin.git_status, { desc = 'Git status' })
-vim.keymap.set('n', '<leader>gc', telescope_builtin.git_commits, { desc = 'Git commits' })
+vim.keymap.set('n', '<leader>gs', require('telescope.builtin').git_status, { desc = 'Git status' })
+vim.keymap.set('n', '<leader>gc', require('telescope.builtin').git_commits, { desc = 'Git commits' })
 
 -- Leap movement keybinds
-vim.keymap.set('n', 's', 'require('leap').leap')
+vim.keymap.set('n', 's', '<Plug>(leap)')
 
 -- Gitsigns helpers
 vim.keymap.set('n', ']h', require('gitsigns').next_hunk, { desc = 'Next hunk' })

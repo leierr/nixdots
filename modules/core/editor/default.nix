@@ -17,16 +17,7 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable (lib.mkMerge [
-    (lib.mkIf (cfg.program == "nvim") {
-      programs.neovim = {
-        defaultEditor = true;
-        enable = true;
-        viAlias = true;
-        vimAlias = true;
-      };
-
-      environment.systemPackages = [ pkgs.ripgrep pkgs.yazi ];
-    })
-  ]);
+  imports = [
+    ./nvim.nix
+  ];
 }

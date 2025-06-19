@@ -17,19 +17,23 @@ in
           viAlias = true;
           vimAlias = true;
           plugins = with pkgs.vimPlugins; [
-	    nvim-autopairs
-	    nvim-surround
-	    nvim-treesitter
-	    oil-nvim # file explorer
+            gitsigns-nvim # Git UI extension
             lualine-nvim # status line
+            nvim-autopairs
+            nvim-surround
+            nvim-treesitter
+            oil-nvim # file explorer
             project-nvim # vscode style projects
             telescope-nvim telescope-fzf-native-nvim telescope-undo-nvim # telescope
+            vim-fugitive # Git cli extension
+            nvim-lspconfig # official lsp-configuration utility
           ];
           extraLuaConfig = builtins.concatStringsSep "\n" [
             (builtins.readFile ./config/nvim/options.lua)
+            (builtins.readFile ./config/nvim/popupTerminal.lua)
             (builtins.readFile ./config/nvim/plugins.lua)
             (builtins.readFile ./config/nvim/keymaps.lua)
-            (builtins.readFile ./config/nvim/popupTerminal.lua)
+            (import ./config/nvim/lsp.nix { inherit pkgs; })
           ];
         };
       })

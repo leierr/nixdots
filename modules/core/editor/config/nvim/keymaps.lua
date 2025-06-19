@@ -30,8 +30,7 @@ map("n", "<leader>fg", function() require("telescope.builtin").live_grep() end, 
 map("n", "<leader>fc", function() require("telescope.builtin").current_buffer_fuzzy_find() end, { desc = "Fuzzy current buffer" })
 map("n", "<leader>fp", function() require("telescope").extensions.projects.projects() end, { desc = "Fuzzy current buffer" })
 
-local term = require("popupTerminal")
-map("n", "<leader><CR>", term.toggle, { desc = "Toggle floating terminal" })
+map("n", "<leader><CR>", floatyTerm.toggle, { desc = "Toggle floating terminal" })
 
 -- oil
 map("n", "<leader>e", function() require("oil").toggle_float() end, { desc = "toggle Oil" })

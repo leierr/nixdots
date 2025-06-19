@@ -12,6 +12,8 @@ require("telescope").setup({
       prompt_position = "top"
     },
 
+    sorting_strategy = "ascending",
+
     file_ignore_patterns = {
       -- images
       "%.jpe?g$", "%.png$", "%.gif$", "%.svg$",
@@ -24,7 +26,7 @@ require("telescope").setup({
     },
 
     mappings = {
-      i = { ["<Esc>"] = actions.close },
+      i = { ["<Esc>"] = require("telescope.actions").close },
     },
   },
 
@@ -80,3 +82,6 @@ require("oil").setup({
 require("project_nvim").setup({
   patterns = { ".git", "flake.nix" }
 })
+
+-- gitsigns setup
+require('gitsigns').setup({})

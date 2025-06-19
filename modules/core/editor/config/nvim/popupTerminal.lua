@@ -1,4 +1,4 @@
-local M = {}
+local floatyTerm = {}
 local term_buf, term_win -- state
 
 local function geometry()
@@ -43,7 +43,7 @@ local function setup_keys()
   end, opts)
 end
 
-function M.toggle()
+function floatyTerm.toggle()
   if term_win and vim.api.nvim_win_is_valid(term_win) then
     -- hide current floating window (buffer kept)
     vim.api.nvim_win_close(term_win, true)
@@ -69,5 +69,3 @@ function M.toggle()
   -- drop user into insert mode
   vim.cmd("startinsert!")
 end
-
-return M

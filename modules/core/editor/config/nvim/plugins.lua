@@ -63,18 +63,18 @@ require("oil").setup({
   skip_confirm_for_simple_edits = false,
   watch_for_changes = true,
   cleanup_delay_ms = 10000,
-  
+
   view_options = {
     natural_order = true,
     case_insensitive = true,
   },
-  
+
   float = {
     max_width = 0.9,
     max_height = 0.8,
     border = "rounded",
   },
-  
+
   keymaps = { ["<Esc>"] = { "actions.close", mode = "n" } },
 })
 

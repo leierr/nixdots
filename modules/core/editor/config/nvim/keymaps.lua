@@ -12,7 +12,7 @@ map("", "s", "<Nop>")
 vim.opt.langmap = 'ø[,Ø{,æ],Æ}'
 
 -- Visual-mode: Remove unnessecary spaces
-map("v", "<leader>ss", [[:s/\v(\S)\zs\s{2,}/ /g | nohlsearch<CR>]], { desc = "Squash spaces (selection, keep indent)" })
+map("v", "<leader>ss", [[:silent! s/\v(\S)\zs\s{2,}/ /g | silent! noh<CR>]], { desc = "Squash spaces (selection, keep indent)" })
 
 -- Search
 map("n", "<leader>h", function() vim.opt.hlsearch = not vim.opt.hlsearch:get() end, { desc = "Toggle search highlight" })
@@ -28,7 +28,9 @@ map("n", "<leader>ff", function() require("telescope.builtin").find_files() end,
 map("n", "<leader>fo", function() require("telescope.builtin").oldfiles() end, { desc = "Old files" })
 map("n", "<leader>fg", function() require("telescope.builtin").live_grep() end, { desc = "Live grep" })
 map("n", "<leader>fc", function() require("telescope.builtin").current_buffer_fuzzy_find() end, { desc = "Fuzzy current buffer" })
+map("n", "<leader>fb", function() require("telescope.builtin").buffers() end, { desc = "Buffers" })
 map("n", "<leader>fp", function() require("telescope").extensions.projects.projects() end, { desc = "Fuzzy current buffer" })
+map("n", "<leader>fu", function() require("telescope").extensions.undo.undo() end, { desc = "Undo history" })
 
 map("n", "<leader><CR>", floatyTerm.toggle, { desc = "Toggle floating terminal" })
 

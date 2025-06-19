@@ -17,16 +17,25 @@ in
           viAlias = true;
           vimAlias = true;
           plugins = with pkgs.vimPlugins; [
-            gitsigns-nvim # Git UI extension
-            lualine-nvim # status line
-            nvim-autopairs
-            nvim-surround
-            nvim-treesitter
-            oil-nvim # file explorer
-            project-nvim # vscode style projects
-            telescope-nvim telescope-fzf-native-nvim telescope-undo-nvim # telescope
-            vim-fugitive # Git cli extension
-            nvim-lspconfig # official lsp-configuration utility
+            luasnip # snippet engine
+            cmp-buffer # cmp source: current buffer words
+            cmp-nvim-lsp # cmp source: LSP completions
+            cmp-path # cmp source: file paths
+            cmp_luasnip # cmp source: LuaSnip snippets
+            conform-nvim # on-save formatter runner
+            gitsigns-nvim # git hunk signs + actions
+            lualine-nvim # lightweight statusline
+            nvim-autopairs # auto-insert (), {}, "", etc.
+            nvim-cmp # completion menu UI
+            nvim-lspconfig # easy LSP-server setup
+            nvim-surround # manipulate surroundings (quotes, tags…)
+            nvim-treesitter # syntax tree highlighting/objects
+            oil-nvim # buffer-style file explorer
+            project-nvim # project root detection
+            telescope-nvim # fuzzy finder core
+            telescope-fzf-native-nvim # native FZF sorter for Telescope
+            telescope-undo-nvim # Telescope view of undotree
+            vim-fugitive # full-featured Git CLI wrapper
           ];
           extraLuaConfig = builtins.concatStringsSep "\n" [
             (builtins.readFile ./config/nvim/options.lua)
@@ -34,6 +43,8 @@ in
             (builtins.readFile ./config/nvim/plugins.lua)
             (builtins.readFile ./config/nvim/keymaps.lua)
             (import ./config/nvim/lsp.nix { inherit pkgs; })
+            (builtins.readFile completions.lua)
+            (import ./config/nvim/fmt.nix { inherit pkgs; })
           ];
         };
       })

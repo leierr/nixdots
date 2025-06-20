@@ -18,6 +18,6 @@ in
   };
 
   imports = [
-    ./nvim.nix
+    ./neovim
   ];
 }

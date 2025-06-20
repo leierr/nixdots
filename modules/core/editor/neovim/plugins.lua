@@ -26,7 +26,10 @@ require("telescope").setup({
     },
 
     mappings = {
-      i = { ["<Esc>"] = require("telescope.actions").close },
+      i = {
+        ["<Esc>"] = require("telescope.actions").close,
+        ["<C-d>"] = require("telescope.actions").delete_buffer,
+      },
     },
   },
 
@@ -57,25 +60,22 @@ require("nvim-treesitter.configs").setup({
   auto_install = false,
 })
 
--- oil setup
-require("oil").setup({
-  delete_to_trash = true,
-  skip_confirm_for_simple_edits = false,
-  watch_for_changes = true,
-  cleanup_delay_ms = 10000,
-
-  view_options = {
-    natural_order = true,
-    case_insensitive = true,
+-- neo-tree (file explorer) — right side, right-most position
+require("neo-tree").setup({
+  close_if_last_window = true,
+  popup_border_style = "rounded",
+  default_component_configs = {
+    git_status = { symbols = { added = "+", modified = "~", deleted = "-" } },
   },
 
-  float = {
-    max_width = 0.9,
-    max_height = 0.8,
-    border = "rounded",
+  window = {
+    position = "right",
+    width = 40,
+    mappings = {
+      ["/"] = "filter_as_you_type",
+      ["<esc>"] = "clear_filter",
+    },
   },
-
-  keymaps = { ["<Esc>"] = { "actions.close", mode = "n" } },
 })
 
 -- projects setup
@@ -84,4 +84,13 @@ require("project_nvim").setup({
 })
 
 -- gitsigns setup
-require('gitsigns').setup({})
+require('gitsigns').setup({
+  signs = {
+    add = { text = "+" },
+    change = { text = "~" },
+    delete = { text = "-" },
+    topdelete = { text = "‾" },
+    changedelete = { text = "~" },
+  },
+  signcolumn = true,
+})

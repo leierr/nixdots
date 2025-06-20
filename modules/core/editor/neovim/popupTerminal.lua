@@ -32,9 +32,24 @@ end
 
 local function setup_keys()
   local opts = { buffer = term_buf, nowait = true, silent = true }
-  -- 1st Esc → exit terminal-mode
-  vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], opts)
-  -- 2nd Esc (now in normal mode) → hide window
+
+  local function exit_and_hide()
+    -- 1. leave terminal-mode
+    vim.api.nvim_feedkeys(
+      vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, false, true),
+      "n",   -- behave like normal-mode input
+      false  -- don’t remap
+    )
+
+    -- 2. close the terminal window (if it’s still around)
+    if term_win and vim.api.nvim_win_is_valid(term_win) then
+      vim.api.nvim_win_close(term_win, true)
+      term_win = nil
+    end
+  end
+
+  vim.keymap.set("t", "<Esc>", exit_and_hide, opts)
+  vim.keymap.set("t", "<S-Esc>", [[<C-\><C-n>]], opts)
   vim.keymap.set("n", "<Esc>", function()
     if term_win and vim.api.nvim_win_is_valid(term_win) then
       vim.api.nvim_win_close(term_win, true)

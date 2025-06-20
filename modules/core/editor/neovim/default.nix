@@ -25,11 +25,11 @@ in
             lspkind-nvim # icons & labels for cmp menu
             lualine-nvim # lightweight statusline
             luasnip # snippet engine
-            neo-tree-nvim # modern file explorer (Tree-Sitter, async)
+            mini-surround
+            mini-splitjoin
             nvim-autopairs # auto-insert (), {}, "", etc.
             nvim-cmp # completion popup UI
             nvim-lspconfig # simple LSP-server setup helper
-            nvim-surround # manipulate surroundings (ys, cs, ds)
             nvim-treesitter # AST-based highlighting/objects
             nvim-treesitter.withAllGrammars
             nvim-web-devicons # nerd font
@@ -38,10 +38,12 @@ in
             telescope-nvim # fuzzy finder core
             telescope-undo-nvim # Telescope view of undo-tree
             vim-fugitive # full-featured Git CLI wrapper
+            oil-nvim
           ];
           extraLuaConfig = builtins.concatStringsSep "\n" [
             (builtins.readFile ./options.lua)
             (builtins.readFile ./popupTerminal.lua)
+            (builtins.readFile ./helpers.lua)
             (builtins.readFile ./plugins.lua)
             (builtins.readFile ./keymaps.lua)
             (import ./lsp.nix { inherit pkgs; })
@@ -51,6 +53,10 @@ in
       })
     ];
 
-    environment.systemPackages = with pkgs; [ fzf ripgrep fd ];
+    environment.systemPackages = with pkgs; [
+      fzf
+      ripgrep
+      fd
+    ];
   };
 }

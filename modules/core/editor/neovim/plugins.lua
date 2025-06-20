@@ -48,8 +48,9 @@ require("telescope").load_extension("fzf")
 -- autopairs setup
 require("nvim-autopairs").setup { check_ts = true }
 
--- surround setup
-require("nvim-surround").setup()
+-- mini helpers
+require('mini.surround').setup({})
+require('mini.splitjoin').setup({})
 
 -- treesitter
 require("nvim-treesitter.configs").setup({
@@ -60,23 +61,8 @@ require("nvim-treesitter.configs").setup({
   auto_install = false,
 })
 
--- neo-tree (file explorer) — right side, right-most position
-require("neo-tree").setup({
-  close_if_last_window = true,
-  popup_border_style = "rounded",
-  default_component_configs = {
-    git_status = { symbols = { added = "+", modified = "~", deleted = "-" } },
-  },
-
-  window = {
-    position = "right",
-    width = 40,
-    mappings = {
-      ["/"] = "filter_as_you_type",
-      ["<esc>"] = "clear_filter",
-    },
-  },
-})
+-- yazi
+require("oil").setup({})
 
 -- projects setup
 require("project_nvim").setup({

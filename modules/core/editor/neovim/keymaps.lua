@@ -38,9 +38,12 @@ map("n", "<leader>q", ":qa<CR>", { noremap = true })
 
 -- Git keybinds
 map("n", "<leader>gr", function() require("gitsigns").reset_hunk() end, { desc = "Undo the changes in the current hunk" })
-map("n", "<leader>gb", function() require("gitsigns").toggle_current_line_blame() end, { desc = "Undo the changes in the current hunk" }) map("n", "<leader>gc", ":Git commit<CR>", { desc = "commit" })
-map("n", "<leader>gp", ":Git push<CR>", { desc = "push" })
-map("n", "<leader>gp", ":Gitsigns toggle_current_line_blame<CR>", { desc = "toggle line blame" })
+map("n", "<leader>gb", function() require("gitsigns").toggle_current_line_blame() end, { desc = "Undo the changes in the current hunk" })
+map("n", "<leader>ga", commit_and_push() { desc = "Save, commit, and push all" })
 
--- Neotree
-map("n", "<leader>e", "<Cmd>Neotree toggle<CR>", { desc = "Toggle neo-tree" })
+-- oil
+map("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Toggle Yazi filebrowser" })
+
+-- Rebinds
+map("n", "J", function() require("mini.splitjoin").toggle() end, { desc = "Splitjoin: Toggle split/join" })
+map('n', 'gf', ":e <cword><CR>", { desc = 'Open file under cursor (create if missing)' })

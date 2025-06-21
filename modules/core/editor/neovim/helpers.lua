@@ -1,7 +1,16 @@
+local function has_dirty_real_buffers()
+  for _, buf in ipairs(vim.fn.getbufinfo({ bufloaded = 1 })) do
+    if buf.changed == 1 and buf.buftype == '' and buf.listed == 1 then
+      return true
+    end
+  end
+  return false
+end
+
 local function commit_and_push()
   vim.cmd('G fetch origin')
 
-  if next(vim.fn.getbufinfo({ bufloaded = 1, changed = 1 })) ~= nil then
+  if has_dirty_real_buffers() then
     -- Show a Yes / No dialog. 1 = “Yes”, 2 = “No”
     local answer = vim.fn.confirm(
       'There are unsaved buffers – write them before committing?', '&Yes\n&No', 1

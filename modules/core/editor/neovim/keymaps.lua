@@ -39,7 +39,7 @@ map("n", "<leader>q", ":qa<CR>", { noremap = true })
 -- Git keybinds
 map("n", "<leader>gr", function() require("gitsigns").reset_hunk() end, { desc = "Undo the changes in the current hunk" })
 map("n", "<leader>gb", function() require("gitsigns").toggle_current_line_blame() end, { desc = "Undo the changes in the current hunk" })
-map("n", "<leader>ga", commit_and_push() { desc = "Save, commit, and push all" })
+map("n", "<leader>ga", commit_and_push, { desc = "Save, commit, and push all" })
 
 -- oil
 map("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Toggle Yazi filebrowser" })

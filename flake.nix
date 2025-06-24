@@ -23,8 +23,14 @@
 
       installPhase = ''
         mkdir -p $out/bin
+
         ags bundle app.ts $out/bin/${name}
+
         chmod +x $out/bin/${name}
+
+        if ! head -n 1 "$out/bin/${name}" | grep -q '^#!'; then
+          sed -i '1i #!/${pkgs.gjs}/bin/gjs -m' "$out/bin/${name}"
+        fi
       '';
     };
   };

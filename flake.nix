@@ -3,7 +3,7 @@
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
   in {
-    packages.${system}. default = pkgs.stdenvNoCC.mkDerivation rec {
+    packages.${system}.default = pkgs.stdenvNoCC.mkDerivation rec {
       name = "astal-shell";
       src = ./.;
 

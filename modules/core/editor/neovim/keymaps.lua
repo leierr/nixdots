@@ -6,7 +6,7 @@ vim.g.mapleader = " "
 -- unbindings
 map("", "<Space>", "<Nop>")
 map("", "<C-l>", "<Nop>")
-map("", "s", "<Nop>")
+map("", "s", "<Nop>") -- mini.surround binding
 
 -- Norwegian keyboard remap
 vim.opt.langmap = "ø[,Ø{,æ],Æ}"
@@ -42,9 +42,11 @@ map("n", "<leader>gb", function() require("gitsigns").toggle_current_line_blame(
 map("n", "<leader>ga", commit_and_push, { desc = "Save, commit, and push all" })
 
 -- oil
-map("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Toggle Yazi filebrowser" })
+map("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Toggle Oil filebrowser" })
 
 -- Rebinds
 map("n", "J", function() require("mini.splitjoin").toggle() end, { desc = "Splitjoin: Toggle split/join" })
 map('n', 'gf', ":e <cword><CR>", { desc = 'Open file under cursor (create if missing)' })
 map("n", "<leader>d", vim.diagnostic.open_float)
+map({ "n", "x", "o" }, "<C-u>", "10k", { noremap = true, silent = true })
+map({ "n", "x", "o" }, "<C-d>", "10j", { noremap = true, silent = true })

@@ -22,13 +22,6 @@ local function commit_and_push()
     vim.cmd('wall') -- write *all* buffers
   end
 
-  -- stop if remote is ahead
-  local behind = tonumber((vim.fn.system('git rev-list --count --left-only @{u}...HEAD'):gsub('%s+', ''))) or 0
-  if behind > 0 then
-    print('Upstream has new commits – pull/rebase first')
-    return
-  end
-
   vim.cmd('G add --all')
 
   vim.ui.input({ prompt = 'Commit message: ' }, function(msg)

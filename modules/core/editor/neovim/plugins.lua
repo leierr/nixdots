@@ -55,9 +55,33 @@ require("telescope").load_extension("undo")
 require("telescope").load_extension("fzf")
 
 -- mini helpers
-require('mini.pairs').setup({})
-require('mini.splitjoin').setup({})
-require('mini.surround').setup({})
+require("mini.pairs").setup({})
+require("mini.splitjoin").setup({})
+require("mini.cursorword").setup({})
+require("mini.surround").setup({
+  mappings = {
+    add = "sa", -- Add surrounding in Normal and Visual modes
+    delete = "sd", -- Delete surrounding
+    replace = "sr", -- Replace surrounding
+    find = '',
+    find_left = '',
+    highlight = '',
+    update_n_lines = '',
+    suffix_last = '',
+    suffix_next = '',
+  },
+  silent = false, -- remove helper messages shown after idle time
+})
+require("mini.jump").setup({
+  mappings = {
+    forward = 'f',
+    backward = 'F',
+    forward_till = 't',
+    backward_till = 'T',
+    repeat_jump = ';',
+  },
+  silent = true,
+})
 
 -- treesitter
 require("nvim-treesitter.configs").setup({

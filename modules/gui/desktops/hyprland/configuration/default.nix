@@ -192,10 +192,6 @@ in
             workspace = [
               "w[t1], gapsout:0"
             ];
-
-            layerrule = [
-              "dimaround, rofi"
-            ];
           };
 
           # submaps

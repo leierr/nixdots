@@ -44,12 +44,14 @@ in
             kanagawa-nvim
             lualine-nvim
             nvim-web-devicons
+            mini-cursorword
             ## ── Navigation, Search & Projects ─────────────────────────
             oil-nvim
             project-nvim
             telescope-nvim
             telescope-fzf-native-nvim
             telescope-undo-nvim
+            mini-jump
           ];
           extraLuaConfig = builtins.concatStringsSep "\n" [
             (builtins.readFile ./options.lua)

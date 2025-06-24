@@ -9,24 +9,27 @@ in
   config = lib.mkIf cfg.enable {
     home-manager.sharedModules = [
       ({
+        wayland.windowManager.hyprland.settings.layerrule = ["dimaround, launcher"];
+
         programs.fuzzel = {
           enable = true;
           settings = {
             main = {
               font = "Hack:size=15";
-              prompt = "❯ ";
+              prompt = ''""'';
+              line-height = 30;
               icon-theme = "Papirus-Dark";
               icons-enabled = true;
               fields = "name,generic,exec";
               match-counter = true;
               anchor = "center";
-              lines = 15;
+              lines = 10;
               width = 45;
               tabs = 0;
               horizontal-pad = 50;
               vertical-pad = 40;
               inner-pad = 10;
-              image-size-ratio = 1;
+              image-size-ratio = 0;
               cache = "/dev/null";
             };
 

@@ -11,11 +11,9 @@ in
     hyprpaper.enable = lib.mkOption { type = lib.types.bool; default = cfg.enable; };
     hyprlock.enable = lib.mkOption { type = lib.types.bool; default = cfg.enable; };
     hypridle.enable = lib.mkOption { type = lib.types.bool; default = cfg.enable; };
-    astal.enable = lib.mkOption { type = lib.types.bool; default = cfg.enable; };
   };
 
   imports = [
-    ./astal
     ./configuration
     ./rofi
     ./hypridle
@@ -40,6 +38,8 @@ in
       grimblast # screenshot utility
       wl-clipboard # wayland clipboard utility
       firefox-bin # browser of choice currently
+    ] ++ [
+      flakeInputs.ags.packages.${pkgs.system}.agsFull #ags/astal dev tools
     ];
 
     dots.gui.apps.footTerminal.enable = true; # terminal of choice

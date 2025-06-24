@@ -17,28 +17,39 @@ in
           viAlias = true;
           vimAlias = true;
           plugins = with pkgs.vimPlugins; [
-            cmp-buffer # cmp source: words from current buffer
-            cmp-nvim-lsp # cmp source: LSP completions
-            cmp-path # cmp source: file paths
-            cmp_luasnip # cmp source: LuaSnip snippets
-            gitsigns-nvim # Git hunks in signcolumn
-            lspkind-nvim # icons & labels for cmp menu
-            lualine-nvim # lightweight statusline
-            luasnip # snippet engine
-            mini-surround
+            ## ── Completion ─────────────────────────────────────────────
+            nvim-cmp
+            cmp-buffer
+            cmp-path
+            cmp-nvim-lsp
+            cmp_luasnip
+            ## ── Snippets & Text Objects ────────────────────────────────
+            luasnip
+            friendly-snippets
+            mini-pairs
             mini-splitjoin
-            nvim-autopairs # auto-insert (), {}, "", etc.
-            nvim-cmp # completion popup UI
-            nvim-lspconfig # simple LSP-server setup helper
-            nvim-treesitter # AST-based highlighting/objects
+            mini-surround
+            ## ── LSP, Formatting & Icons ────────────────────────────────
+            nvim-lspconfig
+            lspkind-nvim
+            conform-nvim
+            ## ── Syntax Highlighting ────────────────────────────────────
+            nvim-treesitter
             nvim-treesitter.withAllGrammars
-            nvim-web-devicons # nerd font
-            project-nvim # project-root detection
-            telescope-fzf-native-nvim # native FZF sorter for Telescope
-            telescope-nvim # fuzzy finder core
-            telescope-undo-nvim # Telescope view of undo-tree
-            vim-fugitive # full-featured Git CLI wrapper
+            ## ── Git Integration ────────────────────────────────────────
+            vim-fugitive
+            gitsigns-nvim
+            ## ── UI & Theme ─────────────────────────────────────────────
+            alpha-nvim
+            kanagawa-nvim
+            lualine-nvim
+            nvim-web-devicons
+            ## ── Navigation, Search & Projects ─────────────────────────
             oil-nvim
+            project-nvim
+            telescope-nvim
+            telescope-fzf-native-nvim
+            telescope-undo-nvim
           ];
           extraLuaConfig = builtins.concatStringsSep "\n" [
             (builtins.readFile ./options.lua)
@@ -47,6 +58,7 @@ in
             (builtins.readFile ./plugins.lua)
             (builtins.readFile ./keymaps.lua)
             (import ./lsp.nix { inherit pkgs; })
+            (import ./conform.nix { inherit pkgs; })
             (builtins.readFile ./completions.lua)
           ];
         };

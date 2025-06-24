@@ -11,11 +11,11 @@ in
     hyprpaper.enable = lib.mkOption { type = lib.types.bool; default = cfg.enable; };
     hyprlock.enable = lib.mkOption { type = lib.types.bool; default = cfg.enable; };
     hypridle.enable = lib.mkOption { type = lib.types.bool; default = cfg.enable; };
-    ags.enable = lib.mkOption { type = lib.types.bool; default = cfg.enable; };
+    astal.enable = lib.mkOption { type = lib.types.bool; default = cfg.enable; };
   };
 
   imports = [
-    ./ags
+    ./astal
     ./configuration
     ./rofi
     ./hypridle

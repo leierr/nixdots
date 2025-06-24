@@ -1,9 +1,16 @@
--- lualine setup
-require("lualine").setup({
-  options = {
-    theme = "codedark",
-  },
+-- theme
+require("kanagawa").setup({
+  theme = "wave",
+  background = { dark = "wave", light = "lotus" },
+  overrides = function(colors)
+    return { LineNr = { fg = colors.theme.ui.fg_dim } } -- slightly brighter linenumbers
+  end,
 })
+
+vim.cmd.colorscheme("kanagawa")
+
+-- lualine setup
+require("lualine").setup({ theme = "kanagawa" })
 
 -- telescope setup
 require("telescope").setup({
@@ -29,12 +36,14 @@ require("telescope").setup({
       i = {
         ["<Esc>"] = require("telescope.actions").close,
         ["<C-d>"] = require("telescope.actions").delete_buffer,
+        ["<Tab>"]  = require("telescope.actions").move_selection_next,
+        ["<S-Tab>"] = require("telescope.actions").move_selection_previous,
       },
     },
   },
 
   pickers = {
-    find_files = { hidden = true, follow = false },
+    find_files = { hidden = false, follow = false },
     live_grep = {
       additional_args = function() return { "--hidden" } end,
     },
@@ -45,12 +54,10 @@ require("telescope").load_extension("projects")
 require("telescope").load_extension("undo")
 require("telescope").load_extension("fzf")
 
--- autopairs setup
-require("nvim-autopairs").setup { check_ts = true }
-
 -- mini helpers
-require('mini.surround').setup({})
+require('mini.pairs').setup({})
 require('mini.splitjoin').setup({})
+require('mini.surround').setup({})
 
 -- treesitter
 require("nvim-treesitter.configs").setup({
@@ -61,13 +68,21 @@ require("nvim-treesitter.configs").setup({
   auto_install = false,
 })
 
--- yazi
-require("oil").setup({})
+-- oil file explorer
+require("oil").setup({
+  delete_to_trash = true,
+  skip_confirm_for_simple_edits = true,
+  watch_for_changes = false,
+  git = {
+    -- Return true to automatically git add/mv/rm files
+    add = function(path) return true end,
+    mv = function(src_path, dest_path) return true end,
+    rm = function(path) return true end,
+  },
+})
 
 -- projects setup
-require("project_nvim").setup({
-  patterns = { ".git", "flake.nix" }
-})
+require("project_nvim").setup({ patterns = { ".git", "flake.nix" } })
 
 -- gitsigns setup
 require('gitsigns').setup({
@@ -80,3 +95,20 @@ require('gitsigns').setup({
   },
   signcolumn = true,
 })
+
+-- dashboard
+local startify = require("alpha.themes.startify")
+
+startify.section.header.val = {
+  [[                               __                ]],
+  [[  ___     ___    ___   __  __ /\_\    ___ ___    ]],
+  [[ / _ `\  / __`\ / __`\/\ \/\ \\/\ \  / __` __`\  ]],
+  [[/\ \/\ \/\  __//\ \_\ \ \ \_/ |\ \ \/\ \/\ \/\ \ ]],
+  [[\ \_\ \_\ \____\ \____/\ \___/  \ \_\ \_\ \_\ \_\]],
+  [[ \/_/\/_/\/____/\/___/  \/__/    \/_/\/_/\/_/\/_/]],
+}
+startify.file_icons.provider = "devicons"
+startify.section.mru_cwd.val = { { type = "padding", val = 0 } } -- disable MRU cwd
+startify.section.mru.val[4].val = function() return { startify.mru(1, nil, 15) } end -- reset MRU (non-cwd's) shortcut key index
+
+require("alpha").setup(startify.config)

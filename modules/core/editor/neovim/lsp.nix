@@ -8,6 +8,7 @@ let
   jsonLS = "${pkgs.vscode-langservers-extracted}/bin/vscode-json-language-server";
   cssLS  = "${pkgs.vscode-langservers-extracted}/bin/vscode-css-language-server";
   htmlLS = "${pkgs.vscode-langservers-extracted}/bin/vscode-html-language-server";
+  markdownLS = "${pkgs.marksman}/bin/marksman";
 in
 ''
 local lspconfig = require('lspconfig')
@@ -35,4 +36,7 @@ lspconfig.html.setup({ cmd = { '${htmlLS}', '--stdio' } })
 
 -- CSS / SCSS
 lspconfig.cssls.setup({ cmd = { '${cssLS}', '--stdio' } })
+
+-- Markdown
+lspconfig.marksman.setup({ cmd = { '${markdownLS}', 'server' } })
 ''

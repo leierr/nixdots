@@ -47,3 +47,4 @@ map("n", "<leader>e", "<CMD>Oil<CR>", { desc = "Toggle Yazi filebrowser" })
 -- Rebinds
 map("n", "J", function() require("mini.splitjoin").toggle() end, { desc = "Splitjoin: Toggle split/join" })
 map('n', 'gf', ":e <cword><CR>", { desc = 'Open file under cursor (create if missing)' })
+map("n", "<leader>d", vim.diagnostic.open_float)

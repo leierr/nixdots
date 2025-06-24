@@ -39,6 +39,10 @@
             user = "git";
             identityFile = [ "~/.ssh/id_ed25519" ];
           };
+          "*.rsync.net" = {
+            identityFile = [ "~/.ssh/id_backup" ];
+            identitiesOnly = true;
+          };
         };
       };
 

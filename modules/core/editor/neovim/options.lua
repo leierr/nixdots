@@ -49,6 +49,7 @@ o.ignorecase = true -- ignore case in search...
 o.smartcase = true -- ...unless uppercase letters are used
 o.incsearch = true -- show match as search pattern is typed
 o.hlsearch = false -- highlight all matches after search
+o.formatoptions:remove({ "c", "r", "o" }) -- don't insert the current comment leader automatically for auto-wrapping comments using 'textwidth', hitting <Enter> in insert mode, or hitting 'o' or 'O' in normal mode.
 
 -- SYSTEM INTEGRATION ───────────────────────────────────────────────
 

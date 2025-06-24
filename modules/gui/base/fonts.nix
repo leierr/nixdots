@@ -12,7 +12,6 @@ in
     defaultFonts = lib.mkOption {
       type = lib.types.listOf lib.types.package;
       default = with pkgs; [
-        cantarell-fonts
         dejavu_fonts
         noto-fonts
         noto-fonts-cjk-sans
@@ -23,6 +22,7 @@ in
         fira-code-symbols
         hack-font
         jetbrains-mono
+        adwaita-fonts
       ] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
     };
   };

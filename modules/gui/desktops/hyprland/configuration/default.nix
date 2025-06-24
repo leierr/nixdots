@@ -14,7 +14,6 @@ in
 
           settings = {
             "$mod" = "SUPER";
-            "$applicationLauncher" = "rofi -show drun -config ~/.config/rofi/drun.rasi";
             "$screenshot" = "grimblast --freeze copy area";
 
             env = [
@@ -31,7 +30,7 @@ in
             exec = [
               "pidof ${pkgs.networkmanagerapplet}/bin/nm-applet || ${pkgs.networkmanagerapplet}/bin/nm-applet"
               "pidof ${pkgs.networkmanagerapplet}/libexec/hyprpolkitagent || ${pkgs.networkmanagerapplet}/libexec/hyprpolkitagent"
-              "pidof ${pkgs.flakeInputs.astalShell}/bin/astal-shell || ${pkgs.flakeInputs.astalShell}/bin/astal-shell"
+              "pidof ${flakeInputs.astalShell.packages.${pkgs.system}.default}/bin/astal-shell || ${flakeInputs.astalShell.packages.${pkgs.system}.default}/bin/astal-shell"
             ];
 
             plugin = {

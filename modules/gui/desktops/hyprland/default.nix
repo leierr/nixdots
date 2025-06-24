@@ -15,7 +15,6 @@ in
 
   imports = [
     ./configuration
-    ./rofi
     ./hypridle
     ./hyprlock
     ./hyprpaper
@@ -39,15 +38,22 @@ in
       wl-clipboard # wayland clipboard utility
       firefox-bin # browser of choice currently
     ] ++ [
-      flakeInputs.ags.packages.${pkgs.system}.agsFull #ags/astal dev tools
+      flakeInputs.ags.packages.${pkgs.system}.agsFull # ags/astal dev tools
+      flakeInputs.astal.packages.${system}.default # astal cli
     ];
 
     dots.gui.apps.footTerminal.enable = true; # terminal of choice
+    dots.gui.apps.fuzzel.enable = true; # application launcher + dmenu
 
     home-manager.sharedModules = [
       ({
-        wayland.windowManager.hyprland.settings."$terminal" = "foot";
-        wayland.windowManager.hyprland.settings."$browser" = "firefox";
+        wayland.windowManager.hyprland.settings = {
+          "$terminal" = "foot";
+          "$TERMINAL" = "foot";
+          "$TERM" = "foot"; 
+          "$browser" = "firefox";
+          "$applicationLauncher" = "fuzzel";
+        };
       })
     ];
   };

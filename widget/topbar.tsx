@@ -19,6 +19,7 @@ function Workspaces({ hyprlandMonitor }: { hyprlandMonitor: Hyprland.Monitor }) 
         .sort((a, b) => a.id - b.id)
         .map((wss, idx) =>
           <button
+            // name={String(wss.id)}
             className={bind(Variable.derive([bind(hyprland, "focusedWorkspace"),bind(wss, "clients")]))
               .as( ([fws, clients]) => `${fws === wss ? "focused " : ""}${clients.length > 0 ? "occupied" : ""}`
             )}

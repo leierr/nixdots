@@ -37,8 +37,9 @@ $bar_maxheight: 24pt;
 
     &:hover { background-color: $bg1; }
     &:hover:active { background-color: $bg2; }
-    > label { color: $fg; }
+    > label { color: $fg; font-weight: 500; }
   }
+
   .systray {
     min-height: $bar_maxheight;
     border-radius: $bar_maxheight * .2;

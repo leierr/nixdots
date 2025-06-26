@@ -4,6 +4,7 @@ let
     withNodeJs = false;
     withPython3 = false;
     withRuby = false;
+    wrapRc = false;
     wrapperArgs = ''--suffix PATH : "${
       pkgs.lib.makeBinPath (with pkgs; [
         git ripgrep fd fzf tree-sitter
@@ -17,6 +18,7 @@ in {
   home.packages = [ neovimFinalPackage ];
 
   xdg.configFile."nvim".source = ./.; # symlink “this very folder” - might be: "${./.}"
+  xdg.configFile."nvim".recursive = true;
 
   home.sessionVariables = {
     EDITOR = "nvim";

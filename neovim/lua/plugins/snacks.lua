@@ -4,6 +4,14 @@ return {
   lazy = false,
   opts = {
     statuscolumn = { enabled = true },
+    dashboard = {
+      enabled = true,
+      sections = {
+        { section = "header" },
+        { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1, limit = 10 },
+        { section = "startup" },
+      },
+    },
     terminal = {
       enabled = true,
       start_insert = true,

@@ -1,7 +1,5 @@
 local o = vim.opt
 
--- VISUALS ───────────────────────────────────────────────────────────
-
 -- Line numbers & gutters
 o.number = true -- absolute line numbers
 o.relativenumber = true -- relative (for motions)
@@ -22,15 +20,11 @@ o.cmdheight = 0 -- hide command line when idle (Neovim ≥0.10)
 o.timeoutlen = 400 -- faster which-key popup timeout
 
 -- Tabline, statusline & theme
-o.showtabline = 1 -- show tabline only if > 1 tab page
 o.laststatus = 3 -- global statusline
-o.background = "dark" -- theme background mode
 
 -- Invisible character rendering
 o.list = true -- show invisible characters
 o.listchars = { tab = "▸ ", trail = "·", extends = "›", precedes = "‹" }
-
--- EDITOR BEHAVIOUR ─────────────────────────────────────────────────
 
 -- Indentation & tab behaviour
 o.expandtab = true -- insert spaces instead of tab characters
@@ -47,31 +41,21 @@ o.linebreak = true -- wrap lines only at convenient break points
 -- Search behaviour
 o.ignorecase = true -- ignore case in search...
 o.smartcase = true -- ...unless uppercase letters are used
-o.incsearch = true -- show match as search pattern is typed
 o.hlsearch = false -- highlight all matches after search
 o.formatoptions:remove({ "c", "r", "o" }) -- don't insert the current comment leader automatically for auto-wrapping comments using 'textwidth', hitting <Enter> in insert mode, or hitting 'o' or 'O' in normal mode.
 
--- SYSTEM INTEGRATION ───────────────────────────────────────────────
-
+-- Mouse & Clipboard
 o.mouse = "" -- enable mouse support in all modes
 o.clipboard = "unnamedplus" -- use system clipboard for all yank/paste
 
--- FOLDING ──────────────────────────────────────────────────────────
-
+-- Folding
 o.foldmethod = "expr" -- folding controlled by expression
 o.foldexpr = "nvim_treesitter#foldexpr()" -- Tree-sitter folding rules
 o.foldenable = false -- don't fold anything by default
 o.foldlevel = 99 -- allow all folds to be open
 
--- FILES & PERSISTENCE ──────────────────────────────────────────────
-
+-- files & persistence
 o.undofile = true -- enable persistent undo history
 o.undodir = vim.fn.stdpath("data") .. "/undo" -- location for undo files
 o.swapfile = false -- disable swap file creation
-o.backup = false -- disable backup before write
-o.writebackup = false -- disable backup during write
 
--- PERFORMANCE ──────────────────────────────────────────────────────
-
-o.updatetime = 300 -- delay before triggering CursorHold
-o.lazyredraw = true -- skip redraws during macros

@@ -28,7 +28,7 @@ require("lazy").setup({
 
   install = {
     missing = true,
-    colorscheme = { "tokyonight", "habamax" },
+    colorscheme = { "kanagawa", "habamax" },
   },
 
   ui = {

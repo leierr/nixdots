@@ -3,7 +3,16 @@ return {
   priority = 1000,
   lazy = false,
   opts = {
-    statuscolumn = { enabled = true },
+    bigfile = { enabled = true },
+    indent = { enabled = true, animate = { enabled = false } },
+    input = { enabled = true },
+    scroll = { enabled = true },
+    statuscolumn = {
+      enabled = true,
+      filetypes = {
+        lazy = false,
+      },
+    },
     dashboard = {
       enabled = true,
       sections = {
@@ -42,6 +51,12 @@ return {
             end,
             mode = "t",
             desc = "<Esc>: hide | <Esc><Esc>: normal mode",
+          },
+          {
+            "<Esc>",
+            function(self) self:hide() end,
+            mode = "n",
+            desc = "<Esc>: hide (normal-mode)",
           },
         },
         -- buffer & window options

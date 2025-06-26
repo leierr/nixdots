@@ -1,3 +1,4 @@
+local git = require("git.custom-functions")
 local map = vim.keymap.set
 
 -- leader
@@ -16,6 +17,18 @@ map("v", "<leader>ss", [[:s/\v(\S)\zs\s{2,}/ /g | nohlsearch<CR>]], { desc = "Sq
 map("n", "<leader>h", function() vim.opt.hlsearch = not vim.opt.hlsearch:get() end, { desc = "Toggle search highlight" })
 map({ "n", "v" }, ",", "/", { desc = "Start / search" })
 
--- Floating term
-map("n", "<leader><CR>", require("Snacks").terminal(), { desc = "Toggle floating terminal" })
+-- easy write&quit
+map('n', '<leader>w', ':w<CR>', { noremap = true })
+map('n', '<leader>q', ':q<CR>', { noremap = true })
 
+-- Floating term
+map("n", "<leader><CR>", function() Snacks.terminal() end, { desc = "Toggle floating terminal" })
+
+-- oil
+map("n", "<leader>e", function() require("oil").open() end, { desc = "toggle Oil" })
+
+-- Git
+map("n", "<leader>ga", git.commit_and_push, { desc = "Git add → commit → push" })
+
+-- flash
+map({ "n", "x", "o" }, "S", function() require("flash").jump() end, { desc = "Flash jump", noremap = true })

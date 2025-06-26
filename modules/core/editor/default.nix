@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, flakeInputs, ... }:
 let
   cfg = config.dots.core.editor;
 in
@@ -17,7 +17,9 @@ in
     };
   };
 
-  imports = [
-    ./neovim
-  ];
+  config = lib.mkIf cfg.enable (lib.mkMerge [
+    (lib.mkIf (cfg.program == "nvim") (
+      import (flakeInputs.self + "/neovim") { inherit pkgs; }
+    ))
+  ]);
 }

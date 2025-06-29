@@ -27,9 +27,6 @@ map("n", "L", vim.cmd.bnext, { desc = "Switch to next Buffer", noremap = true, s
 map("n", "H", vim.cmd.bprev, { desc = "Switch to prev Buffer", noremap = true, silent = true })
 map("n", "<C-q>", function() vim.cmd("bw") end, { desc = "Close Buffer" })
 
--- selection
-map("n", "<C-a>", "ggVG")
-
 -- paste
 map("n", "<leader>p", '"_dP')
 

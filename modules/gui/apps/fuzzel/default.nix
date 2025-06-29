@@ -17,7 +17,7 @@ in
             main = {
               font = "Hack:size=14";
               prompt = ''""'';
-              line-height = 25;
+              line-height = 22;
               icon-theme = "Papirus-Dark";
               icons-enabled = true;
               fields = "name,generic,exec";

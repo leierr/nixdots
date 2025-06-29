@@ -1,10 +1,5 @@
 return {
   {
-    "ibhagwan/fzf-lua",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {}
-  },
-  {
     "stevearc/oil.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     opts = {
@@ -39,5 +34,50 @@ return {
         char = { enabled = false },
       },
     },
+  },
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "scottmckendry/pick-resession.nvim",
+      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+    },
+    opts = function()
+      return {
+        defaults = {
+          layout_config = { prompt_position = "top" },
+          sorting_strategy = "ascending",
+          file_ignore_patterns = {
+            -- images
+            "%.jpe?g$", "%.png$", "%.gif$", "%.svg$",
+            -- video / audio
+            "%.mp4$", "%.mkv$", "%.webm$", "%.mp3$", "%.wav$", "%.ogg$",
+            -- other heavies
+            "%.pdf$", "%.zip$", "%.tar$", "%.7z$", "%.iso$",
+            -- unwanted dirs
+            "%.git/", "%.cache/",
+          },
+          mappings = {
+            i = {
+              ["<Esc>"] = require("telescope.actions").close,
+              ["<C-d>"] = require("telescope.actions").delete_buffer,
+            },
+          },
+        },
+
+        pickers = {
+          find_files = { hidden = false, follow = false },
+          live_grep = { additional_args = function() return { "--hidden" } end },
+        },
+      }
+    end,
+
+    config = function(_, opts)
+      local telescope = require("telescope")
+      telescope.setup(opts)
+      pcall(telescope.load_extension, "fzf")
+      pcall(telescope.load_extension, "resession")
+    end,
   },
 }

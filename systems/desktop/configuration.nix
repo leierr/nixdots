@@ -57,6 +57,8 @@
   # wireguard
   networking.firewall.checkReversePath = false;
 
+  hardware.keyboard.zsa.enable = true;
+
   # various packages
   environment.systemPackages = with pkgs; [
     tmux
@@ -74,5 +76,6 @@
     vesktop
     xfce.mousepad
     pika-backup
+    keymapp
   ];
 }

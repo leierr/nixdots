@@ -4,9 +4,17 @@ return {
   lazy = false,
   opts = {
     bigfile = { enabled = true },
+    bufdelete = { enabled = true },
     indent = { enabled = true, animate = { enabled = false } },
-    input = { enabled = true },
     scroll = { enabled = true },
+    input = {
+      enabled = true,
+      win = {
+        backdrop = true,
+        row = math.floor((vim.o.lines - 5) / 2),
+        col = math.floor((vim.o.columns - 60) / 2),
+      },
+    },
     statuscolumn = {
       enabled = true,
       filetypes = {
@@ -44,7 +52,7 @@ return {
                   vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, false, true), "t", false
                 )
               else
-                self.timer:start(200, 0, function()
+                self.timer:start(150, 0, function()
                   vim.schedule(function() self:hide() end)
                 end)
               end

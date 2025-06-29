@@ -7,9 +7,12 @@ let
     wrapRc = false;
     wrapperArgs = ''--suffix PATH : "${
       pkgs.lib.makeBinPath (with pkgs; [
-        git ripgrep fd fzf tree-sitter
-        lua-language-server nil alejandra
-        vscode-langservers-extracted
+        # Dependencies
+        git ripgrep fd tree-sitter gcc gnumake
+        # language servers + linters
+        lua-language-server # lua
+        nil alejandra # nix
+        vscode-langservers-extracted # html, css, scss, javascript, etc
       ])
     }"'';
   };

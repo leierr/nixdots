@@ -1,3 +1,21 @@
+local bubbles_theme = {
+  normal = {
+    a = { fg = '#080808', bg = '#d183e8' },
+    b = { fg = '#c6c6c6', bg = '#303030' },
+    c = { fg = '#c6c6c6' },
+  },
+
+  insert = { a = { fg = '#080808', bg = '#80a0ff' } },
+  visual = { a = { fg = '#080808', bg = '#79dac8' } },
+  replace = { a = { fg = '#080808', bg = '#ff5189' } },
+
+  inactive = {
+    a = { fg = '#c6c6c6', bg = '#080808' },
+    b = { fg = '#c6c6c6', bg = '#080808' },
+    c = { fg = '#c6c6c6' },
+  },
+}
+
 return {
   {
     "rebelot/kanagawa.nvim",
@@ -19,7 +37,7 @@ return {
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     opts = {
       options = {
-        theme = "kanagawa",
+        theme = bubbles_theme,
         component_separators = '',
         section_separators = { left = '', right = '' },
       },

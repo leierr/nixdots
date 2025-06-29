@@ -1,7 +1,12 @@
 local function has_dirty_real_buffers()
-  for _, buf in ipairs(vim.fn.getbufinfo({ bufloaded = 1 })) do
-    if buf.changed == 1 and buf.buftype == '' and buf.listed == 1 then
-      return true
+  for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+    if vim.api.nvim_buf_is_loaded(bufnr)
+      and vim.bo[bufnr].buftype == ""
+      and vim.fn.buflisted(bufnr) == 1
+      and vim.bo[bufnr].modifiable
+      and vim.bo[bufnr].modified
+    then
+        return true
     end
   end
   return false
@@ -12,13 +17,22 @@ local function commit_and_push()
 
   if has_dirty_real_buffers() then
     local ans = vim.fn.confirm(
-      'Unsaved buffers – write before committing?', '&Yes\n&No', 1
+      "Unsaved buffers – write them first?",
+      "&Yes\n&No",
+      1
     )
+
     if ans ~= 1 then
-      vim.notify('Aborted: unsaved files', vim.log.levels.WARN)
+      vim.notify("Aborted: unsaved files", vim.log.levels.WARN)
       return
     end
-    vim.cmd('wall')
+    vim.cmd("wall")
+
+    -- Sanity check
+    if has_dirty_real_buffers() then
+      vim.notify("Aborted: some buffers still dirty", vim.log.levels.ERROR)
+      return
+    end
   end
 
   vim.cmd('G add --all')
@@ -36,15 +50,14 @@ end
 return {
   {
     "lewis6991/gitsigns.nvim",
-    event = { "BufReadPre", "BufNewFile" },
     opts = {
       signs = {
-        add          = { text = "+" },   -- Additions (typically green)
-        change       = { text = "~" },   -- Modifications (typically blue/yellow)
-        delete       = { text = "-" },   -- Deletions (typically red)
-        topdelete    = { text = "‾" },   -- Deletion at top of file
-        changedelete = { text = "~" },   -- Changed then deleted
-        untracked    = { text = "┆" },   -- Untracked lines (or use "?" if preferred)
+        add = { text = "+" },
+        change = { text = "~" },
+        delete = { text = "-" },
+        topdelete = { text = "‾" },
+        changedelete = { text = "~" },
+        untracked = { text = "┆" },
       },
     };
   },

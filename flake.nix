@@ -31,7 +31,7 @@
         mkdir -p $out/bin
         mkdir -p $out/share
         cp -r * $out/share
-        ags bundle app.ts $out/bin/${pname} -d "SRC='$out/share'"
+        ags bundle app.ts $out/bin/astal-shell -d "SRC='$out/share'"
 
         runHook postInstall
       '';

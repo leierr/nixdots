@@ -1,6 +1,5 @@
 {
-    "name": "astal-shell",
-    "dependencies": {
-        "astal": "/home/leier/.local/share/ags"
-    }
+  "dependencies": {
+    "ags": "*"
+  }
 }

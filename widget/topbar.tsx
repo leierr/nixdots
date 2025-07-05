@@ -1,105 +1,119 @@
-import { Astal, Gtk, Gdk } from "astal/gtk3"
-import { getMonitorName } from "../helpers"
-import { GLib, Gio, Variable, bind, timeout } from "astal"
-import Hyprland from "gi://AstalHyprland"
-import Tray from "gi://AstalTray"
-const hyprland = Hyprland.get_default()
+import app from "ags/gtk4/app"
+import { Gtk, Gdk } from "ags/gtk4";
+import GLib from "gi://GLib"
+import Gio from "gi://Gio"
+import { createPoll, timeout } from "ags/time"
+import { For, With, createBinding, createComputed, onCleanup } from "ags"
+import Astal from "gi://Astal?version=4.0"
+import AstalHyprland from "gi://AstalHyprland"
+import AstalTray from "gi://AstalTray"
+const hypr = AstalHyprland.get_default()
 
-const DistroLogo = () => (
-  <button className="distroLogo" >
-    <icon icon={GLib.get_os_info("LOGO") || "missing-symbolic"} />
-  </button>
-)
-
-function Workspaces({ hyprlandMonitor }: { hyprlandMonitor: Hyprland.Monitor }) {
+function DistroLogo() {
   return (
-    <box className={"workspaces"}>
-      { bind(hyprland, "workspaces").as(ws => ws
-        .filter(wss => wss.monitor === hyprlandMonitor && !(wss.id >= -99 && wss.id <= -2))
-        .sort((a, b) => a.id - b.id)
-        .map((wss, idx) =>
-          <button
-            // name={String(wss.id)}
-            className={bind(Variable.derive([bind(hyprland, "focusedWorkspace"),bind(wss, "clients")]))
-              .as( ([fws, clients]) => `${fws === wss ? "focused " : ""}${clients.length > 0 ? "occupied" : ""}`
-            )}
-            cursor={'pointer'}
-            onClicked={() => wss.focus?.()}>
-            {idx + 1}
-          </button>
-        ))
-      }
-    </box>
+    <Gtk.Button class="distrologo" >
+      <Gtk.Image icon-name={GLib.get_os_info("LOGO") || "missing-symbolic"} />
+    </Gtk.Button>
   )
 }
 
-const dateTime = Variable<string>("").poll(5000, () => GLib.DateTime.new_now_local().format("%a %e %B ‧ %H:%M")!
-  .replace(/\b\w/g, c => c.toUpperCase()) // Capitalize first letter of the month
-  .replace(/\./g, '') // Remove the period from date
-  .replace(/^\s+|\s+$/g, '') // Remove excessive spaces.
-)
-const DateTime = () => (
-  <button className="datetime" cursor={'pointer'} >
-    <label label={dateTime()} />
-  </button>
-)
+function Workspaces({ monitor }: {monitor: Gdk.Monitor}) {
+  const workspaces = createBinding(hypr, "workspaces").as((w) =>
+    w.filter((wss: AstalHyprland.Workspace) => wss.monitor.name === monitor.connector && !(wss.id >= -99 && wss.id <= -2)).
+    sort((a: AstalHyprland.Workspace, b: AstalHyprland.Workspace) => a.id - b.id)
+  ); 
 
-function SysTray() {
-  const tray = Tray.get_default()
-
-  function createMenu(menuModel: Gio.MenuModel, actionGroup: Gio.ActionGroup): Gtk.Menu {
-    const menu: Gtk.Menu = Gtk.Menu.new_from_model(menuModel);
-    menu.insert_action_group("dbusmenu", actionGroup);
-    return menu;
-  }
-
+  const focused = createBinding(hypr, "focusedWorkspace")
 
   return (
-    <box className="systray">
-      {bind(tray, "items").as(items => items.map(item => {
-        let menu: Gtk.Menu = createMenu(item.menu_model, item.action_group);
-        return (
-          <button
-            className="systrayitem"
-            halign={Gtk.Align.CENTER}
-            valign={Gtk.Align.CENTER}
-            tooltip_markup={bind(item, "tooltip_markup")}
-            onClick={(btn, event) => {
-              if (event.button === Gdk.BUTTON_SECONDARY) {
-                menu?.popup_at_widget(btn, Gdk.Gravity.SOUTH_EAST, Gdk.Gravity.NORTH_EAST, null);
-              }
-            }}>
-            <icon gicon={bind(item, "gicon")}/>
-          </button>
-        )}))}
-    </box>
+    <Gtk.Box class={"workspaces"}>
+      <For each={workspaces}>
+        {(w: AstalHyprland.Workspace, idx) => {
+          const clients = createBinding(w, 'clients')
+
+          const cls = createComputed(
+            [focused, clients],
+            (fId, cl): string => {
+              const focused = fId.id === w.id;
+              const occupied = cl.length > 0;
+              return `${focused ? 'focused ' : ''}${occupied ? 'occupied' : ''}`.trim();
+            },
+          );
+
+          return (
+            <Gtk.Button
+              class={cls}
+              cursor={Gdk.Cursor.new_from_name("pointer", null)}
+              onClicked={() => w.focus?.()}
+              label={idx(id => String(id + 1))}>
+            </Gtk.Button>
+          )}}
+      </For>
+    </Gtk.Box>
   )
 }
 
-export default function( gdkmonitor: Gdk.Monitor ) {
-  let hyprlandMonitor = hyprland.monitors.find(m => m.name === getMonitorName(gdkmonitor)) as Hyprland.Monitor;
+function DateTime() {
+  const poll = createPoll("", 5000, () => GLib.DateTime.new_now_local().format("%a %d %B ‧ %H:%M")!)
+  
+  return (
+    <Gtk.Button
+      class={"datetime"}
+      cursor={Gdk.Cursor.new_from_name("pointer", null)}
+      label={poll}
+    />
+  )
+}
+function Tray() {
+  const tray = AstalTray.get_default()
+  const items = createBinding(tray, "items")
 
+  return (
+    <Gtk.Box class="systray" visible={items.as((item) => item.length > 0 )}>
+      <For each={items}>
+        {item => {
+          const pop = Gtk.PopoverMenu.new_from_model(item.menuModel)
+          pop.set_has_arrow(false)
+
+          const conns = [
+            item.connect("notify::menu-model", () => pop.set_menu_model(item.menuModel)),
+            item.connect("notify::action-group", () => pop.insert_action_group("dbusmenu", item.actionGroup)),
+          ];
+
+          onCleanup(() => { conns.map((id) => item.disconnect(id)) })
+
+          return (
+            <Gtk.Box homogeneous={true} $={(self) => { pop.set_parent(self) }}>
+              <Gtk.Image gicon={createBinding(item, 'gicon')}/>
+              <Gtk.GestureClick exclusive={true} button={Gdk.BUTTON_SECONDARY} onPressed={() => pop.popup?.()} />
+            </Gtk.Box>
+          )
+        }}
+      </For>
+    </Gtk.Box>
+  );
+}
+
+export default function topbar(monitor: Gdk.Monitor) {
   return <window
-    className="topbar"
-    gdkmonitor={gdkmonitor}
+    visible
+    name={`topbar-${monitor.connector}`}
+    class={"topbar"}
+    application={app}
+    gdkmonitor={monitor}
     exclusivity={Astal.Exclusivity.EXCLUSIVE}
     anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.LEFT | Astal.WindowAnchor.RIGHT}>
-    <revealer
-      setup={self=>timeout(500, () => self.revealChild=true)}
-      transitionType={Gtk.RevealerTransitionType.SLIDE_DOWN}
-      transitionDuration={1000}>
-      <centerbox className={"centerbox"}>
-        <box hexpand halign={Gtk.Align.START}>
-          <DistroLogo/>
-          <Workspaces hyprlandMonitor={hyprlandMonitor} />
-        </box>
-        <box>
-          <DateTime/>
-        </box>
-        <box hexpand halign={Gtk.Align.END}>
-          <SysTray/>
-        </box>
-      </centerbox>
-    </revealer>
+    <Gtk.CenterBox>
+      <Gtk.Box $type="start">
+        <DistroLogo/>
+        <Workspaces monitor={monitor} />
+      </Gtk.Box>
+      <Gtk.Box $type="center">
+        <DateTime/>
+      </Gtk.Box>
+      <Gtk.Box $type="end">
+        <Tray/>
+      </Gtk.Box>
+    </Gtk.CenterBox>
   </window>
 }

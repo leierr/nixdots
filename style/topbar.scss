@@ -3,17 +3,22 @@
 
 $bar_maxheight: 24pt;
 
-.topbar {
-  background-color: #000;
+window.topbar {
+  background-color: #000; color: #000;
   // border around topbar
-  > revealer > centerbox { margin: 4pt; }
+  > box { margin: 4pt; }
   // spacing between widgets calculated in PT
-  > revealer > centerbox > * > *:not(:last-child) { margin-right: 4pt; }
+  > box > * > *:not(:last-child) { margin-right: 2pt; }
 
-  .distroLogo {
-    icon { font-size: $bar_maxheight * .8; }
-    min-height: $bar_maxheight;
+  .distrologo, .workspaces, .datetime {
+    all: unset;
+    * { all: unset; }
+  }
+
+  .distrologo {
     min-width: $bar_maxheight;
+    min-height: $bar_maxheight;
+    -gtk-icon-size: $bar_maxheight * 0.8;
   }
 
   .workspaces {
@@ -27,30 +32,26 @@ $bar_maxheight: 24pt;
       &.occupied > label { color: $fg; }
       &.focused { background-color: color.scale(#fff, $alpha: -75%); }
       &:hover { background-color: color.scale(#fff, $alpha: -85%); }
+      &:hover:active { background-color: color.scale(#fff, $alpha: -75%); }
     }
   }
 
   .datetime {
     min-height: $bar_maxheight;
-    border-radius: $bar_maxheight * .2;
+    border-radius: $bar_maxheight * .1;
     padding: 0 8pt;
 
-    &:hover { background-color: $bg1; }
-    &:hover:active { background-color: $bg2; }
-    > label { color: $fg; font-weight: 500; }
+    &:hover { background-color: color.scale(#fff, $alpha: -85%); }
+    &:hover:active { background-color: color.scale(#fff, $alpha: -75%); }
+    > label { font-weight: 500; }
   }
 
   .systray {
     min-height: $bar_maxheight;
-    border-radius: $bar_maxheight * .2;
-    padding: 0 6pt;
+    padding: 0 4pt;
     background-color: color.scale(#fff, $alpha: -95%);
-  }
-
-  .systrayitem {
-    icon {
-      font-size: $bar_maxheight * .6;
-      margin: 0 2pt;
-    }
+    border-radius: $bar_maxheight * 0.2;
+    > box { all: unset; min-width: $bar_maxheight * 0.8; }
+    image { all: unset; -gtk-icon-size: $bar_maxheight * 0.6; }
   }
 }

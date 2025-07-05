@@ -1,7 +1,16 @@
-import { App, Gdk, Gtk } from "astal/gtk3"
-import { execAsync, monitorFile } from "astal";
-import topbar from "./widget/topbar"
+import app from "ags/gtk4/app"
+import { Gdk, Gtk } from "ags/gtk4"
 import style from "./style/main.scss"
+import topbar from "./widget/topbar"
+import Astal from "gi://Astal?version=4.0"
+import { execAsync } from "ags/process"
+import { monitorFile } from "ags/file"
+
+function createMonitorWindows(monitor: Gdk.Monitor) {
+  return [
+    topbar(monitor),
+  ];
+}
 
 (async () => {
   const pathsToMonitor = [`${SRC}/style` ]
@@ -16,7 +25,7 @@ import style from "./style/main.scss"
 
     try {
       await execAsync(`sass ${mainScss} ${css}`)
-      App.apply_css(css, true)
+      app.apply_css(css, true)
       print("CSS applied successfully!")
     } catch (error) {
       print("Error transpiling SCSS:", error)
@@ -31,29 +40,27 @@ import style from "./style/main.scss"
   return transpileAndApply()
 })()
 
-function initMonitorWidgets (monitor: Gdk.Monitor): Gtk.Widget[] {
-  return [
-    topbar(monitor),
-  ]
-}
-
 function main() {
-  // Map each monitor to the array of widgets it owns
-  const monitorWidgets = new Map<Gdk.Monitor, Gtk.Widget[]>()
-  for (const monitor of App.get_monitors()) {
-    monitorWidgets.set(monitor, initMonitorWidgets(monitor))
-  }
+  const windowsByMonitor = new Map<Gdk.Monitor, Gtk.Window[]>();
 
-  // When a monitor is added, create its widgets and store them
-  App.connect("monitor-added", (monitor: Gdk.Monitor) => {
-    monitorWidgets.set(monitor, initMonitorWidgets(monitor))
-  })
+  const reconcileMonitors = () => {
+    const activeMonitors = new Set(app.get_monitors());
 
-  // When a monitor is removed, destroy its widgets and forget them
-  App.connect("monitor-removed", (monitor: Gdk.Monitor) => {
-    monitorWidgets.get(monitor)?.forEach(w => w.destroy())
-    monitorWidgets.delete(monitor)
-  })
+    activeMonitors.forEach(monitor => {
+      if (!windowsByMonitor.has(monitor))
+        windowsByMonitor.set(monitor, createMonitorWindows(monitor));
+    });
+
+    for (const [monitor, windows] of windowsByMonitor) {
+      if (!activeMonitors.has(monitor)) {
+        windows.forEach(w => w.destroy());
+        windowsByMonitor.delete(monitor);
+      }
+    }
+  };
+
+  reconcileMonitors();
+  app.connect('notify::monitors', reconcileMonitors);
 }
 
-App.start({ css: style, main })
+app.start({ css: style, main });

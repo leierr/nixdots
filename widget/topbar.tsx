@@ -1,9 +1,8 @@
 import app from "ags/gtk4/app"
 import { Gtk, Gdk } from "ags/gtk4";
 import GLib from "gi://GLib"
-import Gio from "gi://Gio"
-import { createPoll, timeout } from "ags/time"
-import { For, With, createBinding, createComputed, onCleanup } from "ags"
+import { createPoll } from "ags/time"
+import { For, createBinding, createComputed, onCleanup } from "ags"
 import Astal from "gi://Astal?version=4.0"
 import AstalHyprland from "gi://AstalHyprland"
 import AstalTray from "gi://AstalTray"

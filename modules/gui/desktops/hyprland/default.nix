@@ -39,7 +39,6 @@ in
       firefox-bin # browser of choice currently
     ] ++ [
       flakeInputs.ags.packages.${pkgs.system}.agsFull # ags/astal dev tools
-      flakeInputs.astal.packages.${system}.default # astal cli
     ];
 
     dots.gui.apps.footTerminal.enable = true; # terminal of choice

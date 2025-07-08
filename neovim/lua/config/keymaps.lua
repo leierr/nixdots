@@ -30,6 +30,9 @@ map("n", "<C-q>", function() vim.cmd("bw") end, { desc = "Close Buffer" })
 -- paste
 map("n", "<leader>p", '"_dP')
 
+-- lsp diagnostics
+map("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Show diagnostics in float" })
+
 -- reselecting after block indenting
 map("v", "<", "<gv")
 map("v", ">", ">gv")

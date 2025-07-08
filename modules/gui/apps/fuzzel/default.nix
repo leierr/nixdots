@@ -17,7 +17,7 @@ in
             main = {
               font = "Hack:size=14";
               prompt = ''""'';
-              line-height = 22;
+              line-height = 24;
               icon-theme = "Papirus-Dark";
               icons-enabled = true;
               fields = "name,generic,exec";
@@ -44,11 +44,11 @@ in
               match = "DC143Cff";
               prompt = "ffffffff";
               placeholder = "00000000";
-              border = "002b36ff";
+              border = "000000ff";
             };
 
             border = {
-              width = 2;
+              width = 1;
               radius = 20;
             };
 

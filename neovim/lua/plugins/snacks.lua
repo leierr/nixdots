@@ -5,6 +5,7 @@ return {
   opts = {
     bigfile = { enabled = true },
     bufdelete = { enabled = true },
+    rename = { enabled = true },
     indent = { enabled = true, animate = { enabled = false } },
     scroll = { enabled = true },
     input = {

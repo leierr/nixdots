@@ -24,8 +24,7 @@
     hyprsplit.url = "git+https://github.com/shezdy/hyprsplit.git?ref=refs/tags/v0.49.0";
     hyprsplit.inputs.hyprland.follows = "hyprland";
     ags.url = "github:aylur/ags"; ags.inputs.nixpkgs.follows = "nixpkgs";
-    astal.url = "github:aylur/astal"; astal.inputs.nixpkgs.follows = "nixpkgs";
-    astalShell.url = "github:leierr/nixdots?ref=astal"; # astal branch of dotfiles
+    astalShell.url = "github:leierr/nixdots?ref=astal"; astalShell.inputs.nixpkgs.follows = "nixpkgs"; # astal branch of dotfiles
   };
 }
 

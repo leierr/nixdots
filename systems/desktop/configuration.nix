@@ -63,7 +63,6 @@
   environment.systemPackages = with pkgs; [
     tmux
     wireguard-tools
-    unstable.bottles
     age
     sops
     pavucontrol
@@ -77,5 +76,6 @@
     xfce.mousepad
     pika-backup
     keymapp
+    tree
   ];
 }

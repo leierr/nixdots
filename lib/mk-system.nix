@@ -7,10 +7,11 @@ let
   hardwareConfiguration = ../systems/${hostName}/hardware.nix;
   monitorConfiguration = ../systems/${hostName}/monitors.nix;
   globalModules = ../modules;
+  pkgsUnstable = import flakeInputs."nixpkgs-unstable" { inherit system; config.allowUnfree = true; };
 in
 nixpkgs.lib.nixosSystem {
   inherit system;
-  specialArgs = { inherit flakeInputs; };
+  specialArgs = { inherit flakeInputs; inherit pkgsUnstable; };
   modules = [
     configuration
     hardwareConfiguration

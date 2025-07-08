@@ -15,17 +15,6 @@ in
   config = lib.mkIf cfg.enable {
     # Ensure host platform is pinned
     nixpkgs.config.hostPlatform = config.nixpkgs.system;
-
-    # Make unstable accessible as pkgs.unstable (optional)
-    nixpkgs.overlays = [
-      (final: prev: {
-        unstable = import flakeInputs.nixpkgs-unstable {
-          system = config.nixpkgs.system;
-          config = {};
-        };
-      })
-    ];
-
     nixpkgs.config.allowUnfree = true;
 
     nix = {

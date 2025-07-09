@@ -1,5 +1,6 @@
 local git = require("git.custom-functions")
 local map = vim.keymap.set
+local cmd = vim.cmd
 
 -- leader
 vim.g.mapleader = ' '
@@ -19,19 +20,19 @@ map("n", "<leader>h", function() vim.opt.hlsearch = not vim.opt.hlsearch:get() e
 map({ "n", "v" }, ",", "/", { desc = "Start / search" })
 
 -- basic save & quit
-map("n", "<leader>w", function() vim.cmd.write() end, { silent = true, desc = "Write file" })
-map("n", "<leader>q", function() vim.cmd("qa") end, { silent = true, desc = "Quit window" })
+map("n", "<leader>w", function() cmd.write() end, { silent = true, desc = "Write file" })
+map("n", "<leader>q", function() cmd("qa") end, { silent = true, desc = "Quit window" })
 
 -- buffers
-map("n", "L", vim.cmd.bnext, { desc = "Switch to next Buffer", noremap = true, silent = true })
-map("n", "H", vim.cmd.bprev, { desc = "Switch to prev Buffer", noremap = true, silent = true })
-map("n", "<C-q>", function() vim.cmd("bw") end, { desc = "Close Buffer" })
+map("n", "L", cmd.bnext, { desc = "Switch to next Buffer", noremap = true, silent = true })
+map("n", "H", cmd.bprev, { desc = "Switch to prev Buffer", noremap = true, silent = true })
+map("n", "<C-q>", function() cmd("bw") end, { desc = "Close Buffer" })
 
 -- paste
 map("n", "<leader>p", '"_dP')
 
 -- lsp diagnostics
-map("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Show diagnostics in float" })
+map("n", "<leader>d", vim.diagnostic.open_float, { desc = "Show diagnostics in float" })
 
 -- reselecting after block indenting
 map("v", "<", "<gv")

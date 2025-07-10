@@ -1,10 +1,10 @@
 import app from "ags/gtk4/app"
-import { Gdk, Gtk } from "ags/gtk4"
 import style from "./style/main.scss"
-import topbar from "./widget/topbar"
-import Astal from "gi://Astal?version=4.0"
+import Topbar from "./widget/topbar"
 import { execAsync } from "ags/process"
 import { monitorFile } from "ags/file"
+import { Gtk } from "ags/gtk4";
+import { For, createBinding } from "ags"
 
 (async () => {
   const pathsToMonitor = [`${SRC}/style` ]
@@ -34,38 +34,16 @@ import { monitorFile } from "ags/file"
   return transpileAndApply()
 })()
 
-function createMonitorWindows(monitor: Gdk.Monitor) {
-  return [
-    topbar(monitor),
-  ];
-}
+const monitors = createBinding(app, "monitors")
 
 function main() {
-  const windowsPerMonitor = new Map()
-
-  const reconcileMonitors = () => {
-    const currentMonitors = app.get_monitors()
-    const activeConnectors = new Set()
-
-    currentMonitors.forEach(monitor => {
-      const key = monitor.get_connector()
-      activeConnectors.add(key)
-
-      if (!windowsPerMonitor.has(key)) {
-        windowsPerMonitor.set(key, createMonitorWindows(monitor))
-      }
-    });
-
-    for (const [key, wins] of windowsPerMonitor) {
-      if (!activeConnectors.has(key)) {
-        wins.forEach((w: Gtk.Window) => w.destroy())
-        windowsPerMonitor.delete(key)
-      }
-    }
-  };
-
-  reconcileMonitors()
-  app.connect('notify::monitors', reconcileMonitors)
+  return (
+    <For each={monitors} cleanup={(win) => (win as Gtk.Window).destroy()}>
+      {(monitor) => (
+        <Topbar gdkmonitor={monitor}/>
+      )}
+    </For>
+  )
 }
 
 app.start({ css: style, main })

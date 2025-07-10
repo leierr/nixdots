@@ -1,4 +1,3 @@
-import app from "ags/gtk4/app"
 import { Gtk, Gdk } from "ags/gtk4";
 import GLib from "gi://GLib"
 import { createPoll } from "ags/time"
@@ -6,6 +5,7 @@ import { For, createBinding, createComputed, onCleanup } from "ags"
 import Astal from "gi://Astal?version=4.0"
 import AstalHyprland from "gi://AstalHyprland"
 import AstalTray from "gi://AstalTray"
+import AstalBattery from "gi://AstalBattery?version=0.1";
 const hypr = AstalHyprland.get_default()
 
 function DistroLogo() {
@@ -18,7 +18,7 @@ function DistroLogo() {
 
 function Workspaces({ monitor }: {monitor: Gdk.Monitor}) {
   const workspaces = createBinding(hypr, "workspaces").as((w) =>
-    w.filter((wss: AstalHyprland.Workspace) => wss.monitor.name === monitor.connector && !(wss.id >= -99 && wss.id <= -2)).
+    w.filter((wss: AstalHyprland.Workspace) => wss.monitor?.name === monitor.connector && !(wss.id >= -99 && wss.id <= -2)).
     sort((a: AstalHyprland.Workspace, b: AstalHyprland.Workspace) => a.id - b.id)
   ); 
 
@@ -33,7 +33,7 @@ function Workspaces({ monitor }: {monitor: Gdk.Monitor}) {
           const cls = createComputed(
             [focused, clients],
             (fId, cl): string => {
-              const focused = fId.id === w.id;
+              const focused = fId?.id === w.id;
               const occupied = cl.length > 0;
               return `${focused ? 'focused ' : ''}${occupied ? 'occupied' : ''}`.trim();
             },
@@ -46,7 +46,8 @@ function Workspaces({ monitor }: {monitor: Gdk.Monitor}) {
               onClicked={() => w.focus?.()}
               label={idx(id => String(id + 1))}>
             </Gtk.Button>
-          )}}
+          )
+        }}
       </For>
     </Gtk.Box>
   )
@@ -63,6 +64,26 @@ function DateTime() {
     />
   )
 }
+
+function Battery() {
+  const bat = AstalBattery.get_default()
+  const percentage = createBinding(bat, "percentage")
+
+  if (bat === null ) { return }
+
+  return (
+    <Gtk.Box class={"battery"}>
+      <Gtk.LevelBar
+
+      />
+      <Gtk.Label
+        label={percentage.as(p => `${Math.round(p * 100)}%`)}
+        visible={percentage.as(p => (p ?? 0) < 0.30)}
+      />
+    </Gtk.Box>
+  )
+}
+
 function Tray() {
   const tray = AstalTray.get_default()
   const items = createBinding(tray, "items")
@@ -93,19 +114,18 @@ function Tray() {
   );
 }
 
-export default function topbar(monitor: Gdk.Monitor) {
+export default function Topbar({ gdkmonitor }: { gdkmonitor: Gdk.Monitor }) {
   return <window
     visible
-    name={`topbar-${monitor.connector}`}
+    name={"topbar"}
     class={"topbar"}
-    application={app}
-    gdkmonitor={monitor}
+    gdkmonitor={gdkmonitor}
     exclusivity={Astal.Exclusivity.EXCLUSIVE}
     anchor={Astal.WindowAnchor.TOP | Astal.WindowAnchor.LEFT | Astal.WindowAnchor.RIGHT}>
     <Gtk.CenterBox>
       <Gtk.Box $type="start">
         <DistroLogo/>
-        <Workspaces monitor={monitor} />
+        <Workspaces monitor={gdkmonitor} />
       </Gtk.Box>
       <Gtk.Box $type="center">
         <DateTime/>

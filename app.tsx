@@ -34,9 +34,9 @@ import { For, createBinding } from "ags"
   return transpileAndApply()
 })()
 
-const monitors = createBinding(app, "monitors")
-
 function main() {
+  const monitors = createBinding(app, "monitors")
+
   return (
     <For each={monitors} cleanup={(win) => (win as Gtk.Window).destroy()}>
       {(monitor) => (
